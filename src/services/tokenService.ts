@@ -4,9 +4,15 @@ import { AuthResponse } from '../interfaces/models/AuthResponse';
 
 const BASE_URL = 'http://127.0.0.1:8000/token/';
 
-export const getToken = async (userData: AuthRequest): Promise<AuthResponse> => {
-  const response = await axios.post<AuthResponse>(`${BASE_URL}`, userData);
-  return response.data;
+export const getToken = async (userData: AuthRequest): Promise<AuthResponse | undefined> => {
+  try {
+    const response = await axios.post<AuthResponse>(`${BASE_URL}`, userData);
+    return response.data;
+  } catch (error) {
+    error;
+  }
+
+  return;
 };
 
 export const refreshAccessToken = async (refreshToken: string): Promise<AuthResponse> => {

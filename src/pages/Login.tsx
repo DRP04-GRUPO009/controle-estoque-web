@@ -3,7 +3,7 @@ import { useAuth } from "../context/useAuth";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 type LoginFormInputs = {
     username: string;
@@ -19,21 +19,22 @@ export default function Login() {
     const navigate = useNavigate();
     const { login, isLoggedIn } = useAuth();
     const { register, handleSubmit, formState: { errors } } = useForm<LoginFormInputs>({ resolver: yupResolver(validation) });
+    const [loginFailed, setLoginFailed] = useState<boolean | null>(null);
 
     const handleLogin = async (form: LoginFormInputs): Promise<void> => {
         await login(form.username, form.password);
+        const loggedIn = await isLoggedIn();
+        if (loggedIn) navigate('/');
+        else setLoginFailed(true);
     };
 
-    useEffect(() => {
-        const checkLoggedIn = async () => {
-            const loggedIn = await isLoggedIn();
-            if (loggedIn) {
-                navigate('/');
-            }
-        };
-
-        checkLoggedIn();
-    }, [isLoggedIn, navigate, login]);
+    // useEffect(() => {
+    //     const checkLoggedIn = async () => {
+    //         const loggedIn = await isLoggedIn();
+    //         if (loggedIn) navigate('/');
+    //     };
+    //     checkLoggedIn();
+    // }, [isLoggedIn, navigate, login]);
 
     return (
         <>
@@ -83,6 +84,7 @@ export default function Login() {
                     >
                         Entrar
                     </button>
+                    {loginFailed ? <p className="text-[#F87171] text-center">Usuário ou senha incorreto(s) {loginFailed}</p> : ''}
                     </form>
                 </div>
                 </div>
