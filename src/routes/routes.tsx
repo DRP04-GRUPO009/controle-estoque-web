@@ -6,6 +6,7 @@ import Login from "../pages/Login";
 import Profile from "../pages/Profile";
 import Products from "../pages/Products";
 import NewProduct from "../pages/NewProduct";
+import EditProduct from "../pages/EditProduct";
 
 export const router = createBrowserRouter([
   {
@@ -17,6 +18,7 @@ export const router = createBrowserRouter([
       { path: 'login', element: <Login /> },
       { path: 'produtos', element: <ProtectedRoute><Products /></ProtectedRoute> },
       { path: 'produtos/novo', element: <ProtectedRoute><NewProduct /></ProtectedRoute> },
+      { path: 'produtos/:id', element: <ProtectedRoute><EditProduct /></ProtectedRoute> },
     ],
   },
 ]);

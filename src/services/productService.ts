@@ -1,8 +1,18 @@
-import axios from "axios";
+import axios, { Axios, AxiosPromise, AxiosResponse, HttpStatusCode } from "axios";
 import { Product } from "../interfaces/models/Product";
 import { ProductFormInputs } from "../pages/NewProduct";
+import { number } from "yup";
 
 const BASE_URL = 'http://127.0.0.1:8000/api/produtos/'
+
+export const getProductById = async (id: number): Promise<Product | undefined> => {
+  try {
+    const response = await axios.get<Product>(`${BASE_URL}${id}/`);
+    if (response.status === axios.HttpStatusCode.Ok) return response.data;
+  } catch (error) {
+    error;
+  }
+}
 
 export const getAllProducts = async (): Promise<Product[] | undefined> => {
   try {
@@ -17,6 +27,24 @@ export const createProduct = async (product: ProductFormInputs): Promise<Product
   try {
     const response = await axios.post<Product>(`${BASE_URL}novo/`, product);
     if (response.status === axios.HttpStatusCode.Created) return response.data;
+  } catch (error) {
+    error;
+  }
+}
+
+export const updateProduct = async (id: number, product: ProductFormInputs): Promise<Product | undefined> => {
+  try {
+    const response = await axios.put<Product>(`${BASE_URL}${id}/alterar/`, product);
+    if (response.status === axios.HttpStatusCode.Ok) return response.data;
+  } catch (error) {
+    error;
+  }
+}
+
+export const deleteProduct = async (id: number): Promise<AxiosResponse | undefined> => {
+  try {
+    const response = await axios.delete<AxiosResponse>(`${BASE_URL}${id}/excluir/`);
+    return response;
   } catch (error) {
     error;
   }

@@ -8,13 +8,14 @@ import {
   UserCircleIcon,
   PowerIcon,
   HomeIcon,
-  PencilIcon
+  PencilIcon,
+  RectangleStackIcon
 } from "@heroicons/react/24/solid";
 import { useAuth } from "../../context/useAuth";
 import { Link } from "react-router-dom";
  
 export default function Sidebar() {
-  const { logout } = useAuth()
+  const { logout, user } = useAuth()
   
   const handleExit = (): void => {
     logout();
@@ -52,6 +53,16 @@ export default function Sidebar() {
             Produtos cadastrados
           </ListItem>
         </Link>
+        {user?.isStaff ? (
+          <Link to={'#'}>
+            <ListItem placeholder={undefined}>
+              <ListItemPrefix placeholder={undefined}>
+                <RectangleStackIcon className="h-7 w-7" />
+              </ListItemPrefix>
+              Gerenciamento de Estoque
+            </ListItem>
+          </Link>
+        ) : '' }
         <ListItem placeholder={undefined} className="" onClick={handleExit}>
           <ListItemPrefix placeholder={undefined}>
             <PowerIcon className="h-7 w-7" />
