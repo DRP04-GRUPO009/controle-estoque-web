@@ -8,6 +8,7 @@ import {
   UserCircleIcon,
   PowerIcon,
   HomeIcon,
+  PencilIcon
 } from "@heroicons/react/24/solid";
 import { useAuth } from "../../context/useAuth";
 import { Link } from "react-router-dom";
@@ -41,6 +42,14 @@ export default function Sidebar() {
               <UserCircleIcon className="h-7 w-7" />
             </ListItemPrefix>
             Perfil
+          </ListItem>
+        </Link>
+        <Link to={'/produtos'}>
+          <ListItem placeholder={undefined}>
+            <ListItemPrefix placeholder={undefined}>
+              <PencilIcon className="h-7 w-7" />
+            </ListItemPrefix>
+            Produtos cadastrados
           </ListItem>
         </Link>
         <ListItem placeholder={undefined} className="" onClick={handleExit}>

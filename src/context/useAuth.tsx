@@ -69,6 +69,7 @@ export const UserProvider = ({ children }: Props) => {
             localStorage.setItem('refreshToken', res?.refresh);
             setAccessToken(res?.access);
             setRefreshToken(res?.refresh);
+            axios.defaults.headers.common["Authorization"] = "Bearer " + accessToken;
             const tokenParts: string[] =res?.access.split('.');
 
             if (tokenParts.length >= 2) {
@@ -111,6 +112,7 @@ export const UserProvider = ({ children }: Props) => {
                             if (res) {
                                 localStorage.setItem('accessToken', res?.access);
                                 setAccessToken(res?.access);
+                                axios.defaults.headers.common["Authorization"] = "Bearer " + accessToken;
                                 return true;
                             }
                             else return false;
@@ -124,7 +126,10 @@ export const UserProvider = ({ children }: Props) => {
                 }
                 else return false;
             }
-            else return true;
+            else {
+                axios.defaults.headers.common["Authorization"] = "Bearer " + accessToken;
+                return true;
+            }
             return true;
         }
         else return false;

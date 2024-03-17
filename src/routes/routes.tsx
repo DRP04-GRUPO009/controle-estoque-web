@@ -4,6 +4,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Profile from "../pages/Profile";
+import Products from "../pages/Products";
 
 export const router = createBrowserRouter([
   {
@@ -12,7 +13,8 @@ export const router = createBrowserRouter([
     children: [
       { path: '', element: <ProtectedRoute><Home /></ProtectedRoute> },
       { path: 'perfil', element: <ProtectedRoute><Profile /></ProtectedRoute> },
-      { path: 'login', element: <Login /> }
+      { path: 'login', element: <Login /> },
+      { path: 'produtos', element: <ProtectedRoute><Products /></ProtectedRoute> }
     ],
   },
 ]);
