@@ -4,6 +4,7 @@ import { useAuth } from "../context/useAuth";
 import { Product } from "../interfaces/models/Product";
 import { getAllProducts } from "../services/productService";
 import { UnitTypeEnum } from "../interfaces/enums/UnitTypeEnum";
+import { Link } from "react-router-dom";
 
 export default function Products() {
   const { user } = useAuth();
@@ -28,7 +29,17 @@ export default function Products() {
           <div className="flex flex-col">
           <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-              <div className="overflow-hidden">
+              <div className="overflow-hidden mt-2">
+                {user?.isStaff ? (
+                  <Link to={'/produtos/novo'}>
+                    <button
+                      type="button"
+                      className="bg-[#3C50E0] hover:opacity-90 text-white font-bold mx-3 w-24 rounded py-2">
+                      Novo
+                    </button>
+                  </Link>
+                ) : ''                  
+                }
                 <table
                   className="min-w-full text-left text-sm font-light bg-white overflow-hidden shadow rounded-lg border mt-5">
                   <thead
@@ -43,22 +54,29 @@ export default function Products() {
                   </thead>
                   <tbody>                
                     {products.map((product) => (
-                      <tr className="">
+                      <tr className="" key={product.id}>
                         <td className="px-6 py-4 font-medium">{product.id}</td>
                         <td className="px-6 py-4">{product.name}</td>
                         <td className="px-6 py-4">{product.description}</td>
                         <td className="px-6 py-4">{UnitTypeEnum[product.unit_type]}</td>
-                        <td className="flex px-6 py-4">
-                        <button
-                          type="button"
-                          className="bg-[#1C2434] hover:opacity-90 text-white font-bold py-2 px-4 mx-3 w-24 rounded">
-                          Editar
-                        </button>
-                        <button
-                          type="button"
-                          className="bg-[#1C2434] hover:opacity-90 text-white font-bold py- px-4 mx-3 w-24 rounded">
-                          Excluir
-                        </button>
+                        <td className="flex px-3 py-4">
+                          {user?.isStaff ? (
+                            <>
+                              <button
+                                type="button"
+                                className="bg-[#1C2434] hover:opacity-90 text-white font-bold py-2 px-4 mx-3 w-24 rounded">
+                                Editar
+                              </button>
+                              <button
+                                type="button"
+                                className="bg-[#F87171] hover:opacity-90 text-white font-bold py- px-4 mx-3 w-24 rounded">
+                                Excluir
+                            </button>
+                            </>
+                          ) : (
+                            <p className="text-[#F87171]">Usuario sem permissão</p>
+                          )                            
+                          }
                         </td>
                       </tr>
                     ))}
