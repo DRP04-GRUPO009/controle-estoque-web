@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { UnitTypeEnum } from "../interfaces/enums/UnitTypeEnum";
 import { getProductById, updateProduct } from "../services/productService";
-import { Link, redirect, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Product } from "../interfaces/models/Product";
 
@@ -30,9 +30,7 @@ export default function EditProduct() {
   useEffect(() => {
     const fetchProductById = async () => {
       const product = await getProductById(id ? Number.parseInt(id) : 0);
-      if (product) {
-        setProduct(product);
-      }
+      if (product) setProduct(product);
     };
 
     fetchProductById();

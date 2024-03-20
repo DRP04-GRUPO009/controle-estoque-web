@@ -32,7 +32,7 @@ export default function Sidebar() {
         <Link to={'/'}>
           <ListItem  placeholder={undefined}>
             <ListItemPrefix placeholder={undefined}>
-              <HomeIcon className="h-7 w-7 " />
+              <HomeIcon className="h-7 w-7" />
             </ListItemPrefix>
             Início
           </ListItem>
@@ -54,7 +54,7 @@ export default function Sidebar() {
           </ListItem>
         </Link>
         {user?.isStaff ? (
-          <Link to={'#'}>
+          <Link to={'/gerenciamento'}>
             <ListItem placeholder={undefined}>
               <ListItemPrefix placeholder={undefined}>
                 <RectangleStackIcon className="h-7 w-7" />

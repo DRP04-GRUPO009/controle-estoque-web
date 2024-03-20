@@ -1,9 +1,8 @@
-import axios, { Axios, AxiosPromise, AxiosResponse, HttpStatusCode } from "axios";
+import axios, { AxiosResponse } from "axios";
 import { Product } from "../interfaces/models/Product";
 import { ProductFormInputs } from "../pages/NewProduct";
-import { number } from "yup";
 
-const BASE_URL = 'http://127.0.0.1:8000/api/produtos/'
+const BASE_URL = 'http://127.0.0.1:8000/produtos/'
 
 export const getProductById = async (id: number): Promise<Product | undefined> => {
   try {
