@@ -53,7 +53,6 @@ export default function Sidebar() {
             Produtos cadastrados
           </ListItem>
         </Link>
-        {user?.isStaff ? (
           <Link to={'/gerenciamento'}>
             <ListItem placeholder={undefined}>
               <ListItemPrefix placeholder={undefined}>
@@ -62,7 +61,6 @@ export default function Sidebar() {
               Gerenciamento de Estoque
             </ListItem>
           </Link>
-        ) : '' }
         <ListItem placeholder={undefined} className="" onClick={handleExit}>
           <ListItemPrefix placeholder={undefined}>
             <PowerIcon className="h-7 w-7" />

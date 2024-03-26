@@ -11,6 +11,8 @@ import StockManagement from "../pages/StockManagement";
 import SchoolsUnits from "../pages/SchoolsUnits";
 import Stocks from "../pages/Stocks";
 import EditStock from "../pages/EditStock";
+import EditSchoolUnit from "../pages/EditSchoolUnit";
+import NewSchoolUnit from "../pages/NewSchoolUnit";
 
 export const router = createBrowserRouter([
   {
@@ -26,7 +28,9 @@ export const router = createBrowserRouter([
       { path: 'gerenciamento', element: <ProtectedRoute><StockManagement /></ProtectedRoute> },
       { path: 'gerenciamento/unidades-escolares', element: <ProtectedRoute><SchoolsUnits /></ProtectedRoute> },
       { path: 'gerenciamento/estoques', element: <ProtectedRoute><Stocks /></ProtectedRoute> },
+      { path: 'gerenciamento/unidades-escolares/nova', element: <ProtectedRoute><NewSchoolUnit /></ProtectedRoute> },
       { path: 'gerenciamento/unidades-escolares/:id/estoque', element: <ProtectedRoute><EditStock /></ProtectedRoute> },
+      { path: 'gerenciamento/unidades-escolares/:id/editar', element: <ProtectedRoute><EditSchoolUnit /></ProtectedRoute> },
     ],
   },
 ]);

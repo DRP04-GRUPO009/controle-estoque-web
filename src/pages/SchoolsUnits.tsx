@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import Sidebar from "../components/sidebar/Sidebar";
 import { useAuth } from "../context/useAuth";
 import { SchoolUnit } from "../interfaces/models/SchoolUnit";
-import { deleteSchoolUnit, getAllSchoolsUnits } from "../services/stockManagementService";
+import { deleteSchoolUnit, getAllSchoolsUnits } from "../services/schoolUnitService";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { ArrowUturnLeftIcon } from "@heroicons/react/24/solid";
 
 export default function SchoolsUnits() {
   const { user } = useAuth();
@@ -41,7 +42,7 @@ export default function SchoolsUnits() {
             <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
               <div className="overflow-hidden mt-2">
                 {user?.isStaff ? (
-                  <Link to={'/produtos/novo'}>
+                  <Link to={'/gerenciamento/unidades-escolares/nova'}>
                     <button
                       type="button"
                       className="bg-[#247BA0] hover:opacity-90 text-white font-bold mx-3 w-24 rounded py-2">
@@ -73,7 +74,7 @@ export default function SchoolsUnits() {
                           </Link>
                           {user?.isStaff ? (
                             <>
-                              <Link to={`${schoolUnit.stock.school_unit}`}>
+                              <Link to={`${schoolUnit.stock.school_unit}/editar`}>
                                 <button
                                   type="button"
                                   className="bg-[#1C2434] hover:opacity-90 text-white font-bold py-2 px-4 mx-3 w-24 rounded">
@@ -104,12 +105,13 @@ export default function SchoolsUnits() {
         ) : (
           <p>Não há unidades escolares cadastradas.</p>
         )}
-        <Link to={'/gerenciamento'}>
-          <button
-            type="button"
-            className="bg-[#1C2434] hover:opacity-90 text-white font-bold mt-5 py-2 px-4 mx-3 w-24 rounded">
-            Voltar
-          </button>
+        <Link to={'/gerenciamento'} className="inline-block">
+        <button
+          type="button"
+          className="flex items-center bg-[#1C2434] hover:opacity-90 text-white font-bold mt-5 py-2 px-4 mx-3 rounded">
+          <ArrowUturnLeftIcon className="h-6 w-6 mr-3" />
+          Voltar
+        </button>
         </Link>
         </div>
       </div>

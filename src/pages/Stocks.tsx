@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import Sidebar from "../components/sidebar/Sidebar";
 import { useAuth } from "../context/useAuth";
 import { SchoolUnit } from "../interfaces/models/SchoolUnit";
-import { getAllSchoolsUnits } from "../services/stockManagementService";
+import { getAllSchoolsUnits } from "../services/schoolUnitService";
 import { Link } from "react-router-dom";
+import { ArrowUturnLeftIcon } from "@heroicons/react/24/solid";
 
 export default function Stocks() {
   const { user } = useAuth();
@@ -65,10 +66,11 @@ export default function Stocks() {
         ) : (
           <p>Não há unidades escolares cadastradas.</p>
         )}
-        <Link to={'/gerenciamento'}>
+        <Link to={'/gerenciamento'} className="inline-block">
           <button
             type="button"
-            className="bg-[#1C2434] hover:opacity-90 text-white font-bold mt-5 py-2 px-4 mx-3 w-24 rounded">
+            className="flex items-center bg-[#1C2434] hover:opacity-90 text-white font-bold mt-5 py-2 px-4 mx-3 rounded">
+            <ArrowUturnLeftIcon className="h-6 w-6 mr-3" />
             Voltar
           </button>
         </Link>

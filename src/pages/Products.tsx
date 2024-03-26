@@ -85,7 +85,7 @@ export default function Products() {
                                 className="bg-[#F87171] hover:opacity-90 text-white font-bold py- px-4 mx-3 w-24 rounded" 
                                 onClick={() => handleDeleteProduct(product.id)}>
                                 Excluir
-                            </button>
+                              </button>
                             </>
                           ) : (
                             ''

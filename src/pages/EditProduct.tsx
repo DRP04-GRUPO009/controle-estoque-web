@@ -7,6 +7,7 @@ import { getProductById, updateProduct } from "../services/productService";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Product } from "../interfaces/models/Product";
+import { ArrowUturnLeftIcon } from "@heroicons/react/24/solid";
 
 export type ProductFormInputs = {
   name: string,
@@ -103,10 +104,13 @@ export default function EditProduct() {
                         </div>
                     </div>
                     <div className="flex justify-end">
-                      <Link to={'/produtos'}>
-                        <button type="button" className="bg-[#1C2434] hover:opacity-90 mt-5 text-[#F5EDF0] font-bold py-2 px-4 mx-3 rounded">
-                            Voltar
-                        </button>
+                      <Link to={'/produtos'} className="inline-block">
+                      <button
+                        type="button"
+                        className="flex items-center bg-[#1C2434] hover:opacity-90 text-white font-bold mt-5 py-2 px-4 mx-3 rounded">
+                        <ArrowUturnLeftIcon className="h-6 w-6 mr-3" />
+                        Voltar
+                      </button>
                       </Link>
                       <button type="submit" className="bg-[#247BA0] hover:opacity-90 mt-5 text-[#F5EDF0] font-bold py-2 px-4 mx-3 rounded">
                           Atualizar
