@@ -51,7 +51,7 @@ export default function EditStock() {
     if (products) setProductsList(products);
   }
 
-  const handleAddStockItem = useCallback(async (form: StockItemFormInputs) => {
+  const handleAddStockItem = async (form: StockItemFormInputs) => {
     if (schoolUnit?.stock.items.some(i => i.product.id === form.product)) {
       window.alert('Produto já cadastrado.');
     }
@@ -61,11 +61,12 @@ export default function EditStock() {
       if (response === axios.HttpStatusCode.Created) {
         window.alert('Item adicionado com sucesso');
         setAddStockItem(false);
-        navigate(`/gerenciamento/unidades-escolares/${schoolUnit?.stock.school_unit}/estoque`);
+        const updatedSchoolUnit = await getSchoolUnitById(id ? Number.parseInt(id) : 0);
+        if (updatedSchoolUnit) setSchoolUnit(updatedSchoolUnit);
       }
       else window.alert(`Ocorreu um erro ao tentar adicionar o item. Código: ${response}`);
     }
-  }, [navigate, schoolUnit])
+  }
 
   const handleUpdateStockItemQuantity = async (id: number) => {
     const quantity = editedQuantity[id];
@@ -95,7 +96,7 @@ export default function EditStock() {
     };
 
     fetchSchoolUnitById();
-  }, [id, handleAddStockItem]);
+  }, [id]);
 
   return (
     <>
