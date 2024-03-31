@@ -65,13 +65,6 @@ export default function SchoolsUnits() {
                       <tr className="" key={schoolUnit.stock.school_unit}>
                         <td className="px-6 py-4">{schoolUnit.name}</td>
                         <td className="flex px-3 py-4">
-                          <Link to={`${schoolUnit.stock.school_unit}/estoque`}>
-                            <button
-                              type="button"
-                              className="bg-[#1C2434] hover:opacity-90 text-white font-bold py-2 px-4 mx-3 w-24 rounded">
-                              Estoque
-                            </button>
-                          </Link>
                           {user?.isStaff ? (
                             <>
                               <Link to={`${schoolUnit.stock.school_unit}/editar`}>
