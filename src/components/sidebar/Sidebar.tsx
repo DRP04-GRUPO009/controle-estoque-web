@@ -15,7 +15,7 @@ import { useAuth } from "../../context/useAuth";
 import { Link } from "react-router-dom";
  
 export default function Sidebar() {
-  const { logout, user } = useAuth()
+  const { logout } = useAuth()
   
   const handleExit = (): void => {
     logout();

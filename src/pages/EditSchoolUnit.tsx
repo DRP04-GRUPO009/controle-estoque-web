@@ -10,10 +10,12 @@ import axios from "axios";
 
 export type SchoolUnitFormInputs = {
   name: string,
+  main_unit?: boolean
 }
 
 const validation = Yup.object().shape({
   name: Yup.string().required('Nome é obrigatório'),
+  main_unit: Yup.boolean()
 });
 
 export default function EditProduct() {
@@ -64,6 +66,17 @@ export default function EditProduct() {
                               defaultValue={schoolUnit.name}
                               />
                               {errors.name ? <p className="text-[#F87171]">{errors.name.message}</p> : ""}
+                        </div>
+                        <div className="sm:col-span-2">
+                            <label htmlFor="isMain" className="mb-2 mr-2 text-sm font-medium text-[#1C2434] dark:text-white">Unidade Principal</label>
+                            <input 
+                              type="checkbox"
+                              id="isMain" 
+                              className="bg-gray-50 text-[#1C2434] text-sm rounded-lg focus:ring-[#247BA0] focus:border-[#247BA0]" 
+                              placeholder="Nome da Unidade" 
+                              {...register("main_unit")}
+                              defaultChecked={schoolUnit.main_unit}
+                              />
                         </div>
                     </div>
                     <div className="flex justify-end">

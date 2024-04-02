@@ -1,6 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
-//import { User } from "../interfaces/models/User"
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getToken, refreshAccessToken, validateAccessToken } from "../services/tokenService";
 import axios from "axios";
 import { User } from "../interfaces/models/User";
@@ -9,7 +8,6 @@ type UserContextType = {
     user: User | null;
     accessToken: string | null;
     refreshToken: string | null;
-    // registerUser: (email: string, username: string, password: string) => void;
     login: (username: string, password: string) => Promise<void>;
     logout: () => void;
     isTokenValid: () => Promise<boolean>;
@@ -28,7 +26,6 @@ export const UserProvider = ({ children }: Props) => {
     const [isReady, setIsReady] = useState(false);
 
     useEffect(() => {
-        //const user = localStorage.getItem('user');
         const accessToken = localStorage.getItem('accessToken');
         const refreshToken = localStorage.getItem('refreshToken');        
 

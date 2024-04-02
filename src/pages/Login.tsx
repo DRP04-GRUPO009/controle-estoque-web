@@ -3,7 +3,7 @@ import { useAuth } from "../context/useAuth";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 type LoginFormInputs = {
     username: string;
@@ -27,14 +27,6 @@ export default function Login() {
         if (loggedIn) navigate('/');
         else setLoginFailed(true);
     };
-
-    // useEffect(() => {
-    //     const checkLoggedIn = async () => {
-    //         const loggedIn = await isLoggedIn();
-    //         if (loggedIn) navigate('/');
-    //     };
-    //     checkLoggedIn();
-    // }, [isLoggedIn, navigate, login]);
 
     return (
         <>
