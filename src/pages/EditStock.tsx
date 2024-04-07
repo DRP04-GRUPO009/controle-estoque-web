@@ -149,7 +149,7 @@ export default function EditStock() {
         {schoolUnit ? (
           <div className="w-10/12 p-5">
             <h2 className="text-3xl">Estoque: {schoolUnit.name}</h2>
-            {schoolUnit?.main_unit ? (
+            {schoolUnit?.main_unit && user?.isStaff ? (
               <div className="flex mt-5">
                   <button
                     type="button"
