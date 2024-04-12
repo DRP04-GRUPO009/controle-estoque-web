@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosResponse, HttpStatusCode } from 'axios';
 import { StockItemFormInputs, TransferProductFormInputs } from '../pages/EditStock';
 
-const BASE_URL = 'http://controleestoque.pythonanywhere.com/estoques/item-estoque/';
+const BASE_URL = 'https://controleestoque.pythonanywhere.com/estoques/item-estoque/';
 
 export const updateStockItem = async (id: number, item: StockItemFormInputs): Promise<HttpStatusCode> => {
   try {

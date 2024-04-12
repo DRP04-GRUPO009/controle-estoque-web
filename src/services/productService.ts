@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import { Product } from "../interfaces/models/Product";
 import { ProductFormInputs } from "../pages/NewProduct";
 
-const BASE_URL = 'http://controleestoque.pythonanywhere.com/produtos/'
+const BASE_URL = 'https://controleestoque.pythonanywhere.com/produtos/'
 
 export const getProductById = async (id: number): Promise<Product | undefined> => {
   try {

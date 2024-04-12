@@ -2,7 +2,7 @@ import axios from 'axios';
 import { AuthRequest } from '../interfaces/models/AuthRequest';
 import { AuthResponse } from '../interfaces/models/AuthResponse';
 
-const BASE_URL = 'http://controleestoque.pythonanywhere.com/token/';
+const BASE_URL = 'https://controleestoque.pythonanywhere.com/token/';
 
 export const getToken = async (userData: AuthRequest): Promise<AuthResponse | undefined> => {
   try {

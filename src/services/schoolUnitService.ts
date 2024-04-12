@@ -2,7 +2,7 @@ import axios, { AxiosResponse, HttpStatusCode } from "axios";
 import { SchoolUnit } from "../interfaces/models/SchoolUnit";
 import { SchoolUnitFormInputs } from "../pages/EditSchoolUnit";
 
-const BASE_URL = 'http://controleestoque.pythonanywhere.com/unidades-escolares/'
+const BASE_URL = 'https://controleestoque.pythonanywhere.com/unidades-escolares/'
 
 export const getSchoolUnitById = async (id: number): Promise<SchoolUnit | undefined> => {
   try {
