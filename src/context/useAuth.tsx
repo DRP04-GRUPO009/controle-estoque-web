@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getToken, refreshAccessToken, validateAccessToken } from "../services/tokenService";
 import axios from "axios";
-import { User } from "../interfaces/models/User";
+import { PermissionGroup, User } from "../interfaces/models/User";
 
 type UserContextType = {
     user: User | null;
@@ -42,13 +42,15 @@ export const UserProvider = ({ children }: Props) => {
                 const firstName: string = payload.first_name || '';
                 const lastName: string = payload.last_name || '';
                 const isStaff: boolean = payload.is_staff || false;
+                const permissionsGrupos: PermissionGroup[] = payload.permissions_groups || [];
 
                 const user: User = {
                     id: id,
                     username: username,
                     firstName: firstName,
                     lastName: lastName,
-                    isStaff: isStaff
+                    isStaff: isStaff,
+                    permissionGroups: permissionsGrupos
                 };
 
                 setUser(user);
@@ -77,13 +79,15 @@ export const UserProvider = ({ children }: Props) => {
                 const firstName: string = payload.first_name || '';
                 const lastName: string = payload.last_name || '';
                 const isStaff: boolean = payload.is_staff || false;
+                const permissionsGrupos: PermissionGroup[] = payload.permissions_groups || [];
 
                 const user: User = {
                     id: id,
                     username: username,
                     firstName: firstName,
                     lastName: lastName,
-                    isStaff: isStaff
+                    isStaff: isStaff,
+                    permissionGroups: permissionsGrupos
                 };
 
                 setUser(user);

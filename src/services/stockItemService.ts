@@ -35,6 +35,22 @@ export const createStockItem = async (item: StockItemFormInputs): Promise<HttpSt
   }
 }
 
+export const deleteStockItem = async (id: number): Promise<HttpStatusCode> => {
+  try {
+    const response = await axios.delete<AxiosResponse>(`${BASE_URL}${id}/excluir/`);
+    if (response) return response.status;
+    else return axios.HttpStatusCode.InternalServerError;    
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const axiosError = error as AxiosError;
+      if (axiosError.response && axiosError.response.status) {
+        return axiosError.response.status;
+      }
+    }
+    return axios.HttpStatusCode.InternalServerError;
+  }
+}
+
 export const createProductTransfer = async (transferInfo: TransferProductFormInputs): Promise<HttpStatusCode> => {
   try {
     const response = await axios.post<AxiosResponse>(`${BASE_URL}transferir/`, transferInfo);

@@ -6,6 +6,7 @@ import { deleteSchoolUnit, getAllSchoolsUnits } from "../services/schoolUnitServ
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { ArrowUturnLeftIcon } from "@heroicons/react/24/solid";
+import { StockItem } from "../interfaces/models/StockItem";
 
 export default function SchoolsUnits() {
   const { user } = useAuth();
@@ -23,10 +24,21 @@ export default function SchoolsUnits() {
   const handleDeleteSchoolUnit = async (id: number) => {
     const confirmed = window.confirm('Tem certeza que deseja excluir essa unidade escolar?');
     if (confirmed) {
-      const response = await deleteSchoolUnit(id);
-      if (response?.status === axios.HttpStatusCode.NoContent) window.alert('Unidade escolar excluída com sucesso!'); 
-      else window.alert('Ocorreu um erro ao tentar excluir a unidades escolar. Tente mais tarde.');
-      fetchScholsUnits();
+      const schoolUnit = schoolsUnits?.find(l => l.stock.school_unit === id);
+      if (schoolUnit) {
+        const numberOfItems = schoolUnit.stock.items.reduce((acc: number, item: StockItem) => {
+          return acc + item.quantity;
+        }, 0);
+
+        if (numberOfItems > 0) window.alert("Não é possível excluir esta unidade escolar porque existem itens no estoque com quantidade maior que zero.");
+        else {
+          const response = await deleteSchoolUnit(id);
+          if (response?.status === axios.HttpStatusCode.NoContent) window.alert('Unidade escolar excluída com sucesso!'); 
+          else window.alert('Ocorreu um erro ao tentar excluir a unidades escolar. Tente mais tarde.');
+          fetchScholsUnits();
+        }
+      }
+      else window.alert('Ocorreu um erro. Tente mais tarde.')
     }
   }
 
@@ -35,13 +47,17 @@ export default function SchoolsUnits() {
       <div className="flex flex-row">
         <Sidebar />
         <div className="w-10/12 p-5">
-        <h2 className="text-3xl">Unidades Escolares</h2>
+        {user && user.permissionGroups.length > 0 ? 
+          <h2 className="text-3xl">Meu acesso: unidades escolares</h2> :
+          <h2 className="text-3xl">Todas as unidades escolares</h2>
+        }
+        
         {schoolsUnits ? (
           <div className="flex flex-col">
           <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
               <div className="overflow-hidden mt-2">
-                {user?.isStaff ? (
+                {user && (user.permissionGroups.length === 0 || user.isStaff)  ? (
                   <Link to={'/gerenciamento/unidades-escolares/nova'}>
                     <button
                       type="button"
@@ -57,7 +73,7 @@ export default function SchoolsUnits() {
                     className="border-b border-[#1C2434] font-medium dark:border-white/10">
                     <tr>
                       <th scope="col" className="px-6 py-4">Nome da Unidade</th>
-                      {user?.isStaff ? (<th scope="col" className="px-6 py-4">Ações</th>) : ''}
+                      {user && (user.permissionGroups.length === 0 || user.isStaff) ? (<th scope="col" className="px-6 py-4">Ações</th>) : ''}
                     </tr>
                   </thead>
                   <tbody>                
@@ -65,7 +81,7 @@ export default function SchoolsUnits() {
                       <tr className="" key={schoolUnit.stock.school_unit}>
                         <td className="px-6 py-4">{schoolUnit.name}</td>
                         <td className="flex px-3 py-4">
-                          {user?.isStaff ? (
+                          {user && (user.permissionGroups.length === 0 || user.isStaff) ? (
                             <>
                               <Link to={`${schoolUnit.stock.school_unit}/editar`}>
                                 <button

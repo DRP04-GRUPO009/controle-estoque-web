@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { UnitTypeEnum } from "../interfaces/enums/UnitTypeEnum";
 import { ChevronUpDownIcon, ArrowUpTrayIcon, ArrowUturnLeftIcon, PlusIcon } from "@heroicons/react/24/solid";
 import { getAllSchoolsUnits, getSchoolUnitById } from "../services/schoolUnitService";
-import { createProductTransfer, createStockItem, updateStockItem } from "../services/stockItemService";
+import { createProductTransfer, createStockItem, deleteStockItem, updateStockItem } from "../services/stockItemService";
 import axios from "axios";
 import * as Yup from "yup"
 import { useForm } from "react-hook-form";
@@ -133,15 +133,24 @@ export default function EditStock() {
     }
   };
 
-  useEffect(() => {
-    const fetchSchoolUnitById = async () => {
-      const schoolUnit = await getSchoolUnitById(id ? Number.parseInt(id) : 0);
-      if (schoolUnit) setSchoolUnit(schoolUnit);
-    };
+  const handleDeleteStockItem = async (id: number) => {
+    const confirmed = window.confirm('Tem certeza que deseja excluir esse item do estoque?');
+    if (confirmed) {
+      const response = await deleteStockItem(id);
+      if (response === axios.HttpStatusCode.NoContent) window.alert("Item excluído com sucesso.");
+      else window.alert(`Não foi possível excluir o item. Código: ${response}`);
+      fetchSchoolUnitById();
+    }
+  }
 
+  useEffect(() => {
     fetchSchoolUnitById();
   }, [id]);
 
+  const fetchSchoolUnitById = async () => {
+    const schoolUnit = await getSchoolUnitById(id ? Number.parseInt(id) : 0);
+    if (schoolUnit) setSchoolUnit(schoolUnit);
+  };
   return (
     <>
      <div className="flex flex-row">
@@ -149,7 +158,7 @@ export default function EditStock() {
         {schoolUnit ? (
           <div className="w-10/12 p-5">
             <h2 className="text-3xl">Estoque: {schoolUnit.name}</h2>
-            {schoolUnit?.main_unit && user?.isStaff ? (
+            {schoolUnit?.main_unit && user && (user.permissionGroups.length === 0 || user.isStaff) ? (
               <div className="flex mt-5">
                   <button
                     type="button"
@@ -307,7 +316,7 @@ export default function EditStock() {
                         <th scope="col" className="px-6 py-4">Produto</th>
                         <th scope="col" className="px-6 py-4">Unidade de Medida</th>
                         <th scope="col" className="px-6 py-4">Quantidade</th>
-                        {user?.isStaff && schoolUnit.main_unit ? (<th scope="col" className="px-6 py-4">Ações</th>) : ''}
+                        <th scope="col" className="px-6 py-4">Ações</th>
                       </tr>
                     </thead>
                     <tbody>                
@@ -316,21 +325,17 @@ export default function EditStock() {
                           <td className="px-6 py-4">{item.id}</td>
                           <td className="px-6 py-4">{item.product.name}</td>
                           <td className="px-6 py-4">{UnitTypeEnum[item.product.unit_type.valueOf()]}</td>
-                          {user?.isStaff ? (
-                              <td>
-                                  <input 
-                                  type="number"
-                                  id={`item-${item.id}-quantity`}
-                                  min={0}
-                                  defaultValue={item.quantity}
-                                  onChange={(e) => handleEditQuantity(item.id, e.target.value)}
-                                  />
-                              </td>
-                          ) : (
-                            <td className="px-6 py-4">{item.quantity}</td>
-                          )}
-                          {user?.isStaff ? (                         
-                            <td className="px-6 py-4">
+                            <td>
+                              <input 
+                              type="number"
+                              id={`item-${item.id}-quantity`}
+                              min={0}
+                              max={user && user.permissionGroups.length > 0 ? item.quantity : Number.MAX_SAFE_INTEGER}
+                              defaultValue={item.quantity}
+                              onChange={(e) => handleEditQuantity(item.id, e.target.value)}
+                              />
+                            </td>                     
+                            <td className="flex px-6 py-4">
                               <button
                                 type="button"
                                 className="flex items-center bg-[#247BA0] hover:opacity-90 text-white font-bold mx-2 py-2 px-4 w-42 rounded disabled:cursor-not-allowed"
@@ -338,10 +343,14 @@ export default function EditStock() {
                                 >
                                 <ChevronUpDownIcon className="mr-2 h-6 w-6" />
                                 Atualizar Quantidade
-                              </button>                       
-                            </td>                        
-                            ) : ''
-                          }
+                              </button> 
+                              <button
+                                  type="button"
+                                  className="bg-[#F87171] hover:opacity-90 text-white font-bold py-2 px-4 mx-3 w-24 rounded" 
+                                  onClick={() => handleDeleteStockItem(item.id)}>
+                                  Excluir
+                                </button>                      
+                            </td>                    
                         </tr>
                       ))}
                     </tbody>

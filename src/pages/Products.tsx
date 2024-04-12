@@ -41,7 +41,7 @@ export default function Products() {
           <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
               <div className="overflow-hidden mt-2">
-                {user?.isStaff ? (
+                {user && (user.permissionGroups.length === 0 || user.isStaff) ? (
                   <Link to={'/produtos/novo'}>
                     <button
                       type="button"
@@ -60,37 +60,39 @@ export default function Products() {
                       <th scope="col" className="px-6 py-4">Produto</th>
                       <th scope="col" className="px-6 py-4">Descrição</th>
                       <th scope="col" className="px-6 py-4">Unidade de Medida</th>
-                      {user?.isStaff ? (<th scope="col" className="px-6 py-4">Ações</th>) : ''}
+                      {user && (user.permissionGroups.length === 0 || user.isStaff) ? (<th scope="col" className="px-6 py-4">Ações</th>) : ''}
                     </tr>
                   </thead>
                   <tbody>                
                     {products.map((product) => (
-                      <tr className="" key={product.id}>
+                      <tr className="flex-shrink align-center" key={product.id}>
                         <td className="px-6 py-4 font-medium">{product.id}</td>
                         <td className="px-6 py-4">{product.name}</td>
                         <td className="px-6 py-4">{product.description}</td>
                         <td className="px-6 py-4">{UnitTypeEnum[product.unit_type]}</td>
-                        <td className="flex px-3 py-4">
-                          {user?.isStaff ? (
-                            <>
-                              <Link to={`${product.id}`}>
+                        <td>
+                          <div className="flex">
+                            {user && (user.permissionGroups.length === 0 || user.isStaff) ? (
+                              <>
+                                <Link to={`${product.id}`}>
+                                  <button
+                                    type="button"
+                                    className="bg-[#1C2434] hover:opacity-90 text-white font-bold py-2 px-4 mx-3 w-24 rounded">
+                                    Editar
+                                  </button>
+                                </Link>
                                 <button
                                   type="button"
-                                  className="bg-[#1C2434] hover:opacity-90 text-white font-bold py-2 px-4 mx-3 w-24 rounded">
-                                  Editar
+                                  className="bg-[#F87171] hover:opacity-90 text-white font-bold py-2 px-4 mx-3 w-24 rounded" 
+                                  onClick={() => handleDeleteProduct(product.id)}>
+                                  Excluir
                                 </button>
-                              </Link>
-                              <button
-                                type="button"
-                                className="bg-[#F87171] hover:opacity-90 text-white font-bold py- px-4 mx-3 w-24 rounded" 
-                                onClick={() => handleDeleteProduct(product.id)}>
-                                Excluir
-                              </button>
-                            </>
-                          ) : (
-                            ''
-                          )                            
-                          }
+                              </>
+                            ) : (
+                              ''
+                            )                            
+                            }
+                          </div>
                         </td>
                       </tr>
                     ))}

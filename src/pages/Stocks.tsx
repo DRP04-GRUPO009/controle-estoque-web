@@ -51,7 +51,7 @@ export default function Stocks() {
                             <button
                               type="button"
                               className="bg-[#1C2434] hover:opacity-90 text-white font-bold py-2 px-4 mx-3 w-24 rounded">
-                              {user?.isStaff ? 'Gerenciar' : 'Visualizar'}
+                              Gerenciar
                             </button>
                           </Link>
                         </td>

@@ -35,10 +35,13 @@ export default function Profile() {
                               </div>
                               <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                   <dt className="text-sm font-medium ">
-                                      Pode gerenciar informações do estoque?
+                                      Acesso às seguintes unidades escolares
                                   </dt>
                                   <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                      { user?.isStaff ? 'Sim' : 'Não' }
+                                      { user && user.permissionGroups.length === 0 ? 'Todas' : 
+                                      user?.permissionGroups.map(group => (
+                                        <p key={group.id}>{group.school_unit_name}</p>
+                                      )) }
                                   </dd>
                               </div>
                           </dl>
