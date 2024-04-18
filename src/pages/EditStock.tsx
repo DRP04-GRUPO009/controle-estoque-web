@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Link, useParams } from "react-router-dom";
 import Sidebar from "../components/sidebar/Sidebar";
 import { useAuth } from "../context/useAuth";
