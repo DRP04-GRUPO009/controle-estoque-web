@@ -6,6 +6,7 @@ import { deleteProduct, getAllProducts } from "../services/productService";
 import { UnitTypeEnum } from "../interfaces/enums/UnitTypeEnum";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { PlusIcon, PencilSquareIcon, TrashIcon } from "@heroicons/react/24/solid";
 
 export default function Products() {
   const { user } = useAuth();
@@ -45,7 +46,8 @@ export default function Products() {
                   <Link to={'/produtos/novo'}>
                     <button
                       type="button"
-                      className="bg-[#247BA0] hover:opacity-90 text-white font-bold mx-3 w-24 rounded py-2">
+                      className="flex items-center justify-center bg-[#247BA0] hover:opacity-90 text-white font-bold mx-3 w-24 rounded py-2">
+                      <PlusIcon className="h-6 w-6 mr-3" />
                       Novo
                     </button>
                   </Link>
@@ -77,14 +79,16 @@ export default function Products() {
                                 <Link to={`${product.id}`}>
                                   <button
                                     type="button"
-                                    className="bg-[#1C2434] hover:opacity-90 text-white font-bold py-2 px-4 mx-3 w-24 rounded">
+                                    className="flex items-center bg-[#1C2434] hover:opacity-90 text-white font-bold mx-2 py-2 px-4 w-42 rounded">
+                                    <PencilSquareIcon className="h-5 w-5 mr-3" />
                                     Editar
                                   </button>
                                 </Link>
                                 <button
                                   type="button"
-                                  className="bg-[#F87171] hover:opacity-90 text-white font-bold py-2 px-4 mx-3 w-24 rounded" 
+                                  className="flex items-center bg-[#F87171] hover:opacity-90 text-white font-bold mx-2 py-2 px-4 w-42 rounded" 
                                   onClick={() => handleDeleteProduct(product.id)}>
+                                  <TrashIcon className="h-5 w-5 mr-3" />
                                   Excluir
                                 </button>
                               </>

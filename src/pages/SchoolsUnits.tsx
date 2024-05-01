@@ -5,7 +5,7 @@ import { SchoolUnit } from "../interfaces/models/SchoolUnit";
 import { deleteSchoolUnit, getAllSchoolsUnits } from "../services/schoolUnitService";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { ArrowUturnLeftIcon } from "@heroicons/react/24/solid";
+import { ArrowUturnLeftIcon, TrashIcon, PlusIcon, PencilSquareIcon } from "@heroicons/react/24/solid";
 import { StockItem } from "../interfaces/models/StockItem";
 
 export default function SchoolsUnits() {
@@ -61,7 +61,8 @@ export default function SchoolsUnits() {
                   <Link to={'/gerenciamento/unidades-escolares/nova'}>
                     <button
                       type="button"
-                      className="bg-[#247BA0] hover:opacity-90 text-white font-bold mx-3 w-24 rounded py-2">
+                      className="flex items-center justify-center bg-[#247BA0] hover:opacity-90 text-white font-bold mx-3 w-24 rounded py-2">
+                      <PlusIcon className="mr-2 h-6 w-6" />
                       Nova
                     </button>
                   </Link>
@@ -86,15 +87,17 @@ export default function SchoolsUnits() {
                               <Link to={`${schoolUnit.stock.school_unit}/editar`}>
                                 <button
                                   type="button"
-                                  className="bg-[#1C2434] hover:opacity-90 text-white font-bold py-2 px-4 mx-3 w-24 rounded">
+                                  className="flex items-center bg-[#1C2434] hover:opacity-90 text-white font-bold py-2 px-4 mx-3 w-42 rounded">
+                                  <PencilSquareIcon className="mr-2 h-5 w-5" />
                                   Editar
                                 </button>
                               </Link>
                               <button
                                 type="button"
-                                className="bg-[#F87171] hover:opacity-90 text-white font-bold py- px-4 mx-3 w-24 rounded"
+                                className="flex items-center bg-[#F87171] hover:opacity-90 text-white font-bold py- px-4 mx-3 w-42 rounded"
                                 onClick={() => handleDeleteSchoolUnit(schoolUnit.stock.school_unit)} 
                                 >
+                                <TrashIcon className="mr-2 h-5 w-5" />
                                 Excluir
                             </button>
                             </>

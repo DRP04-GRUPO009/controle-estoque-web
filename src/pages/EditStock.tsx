@@ -5,7 +5,7 @@ import { useAuth } from "../context/useAuth";
 import { SchoolUnit } from "../interfaces/models/SchoolUnit";
 import { useEffect, useState } from "react";
 import { UnitTypeEnum } from "../interfaces/enums/UnitTypeEnum";
-import { ChevronUpDownIcon, ArrowUpTrayIcon, ArrowUturnLeftIcon, PlusIcon } from "@heroicons/react/24/solid";
+import { ChevronUpDownIcon, ArrowUpTrayIcon, ArrowUturnLeftIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { getAllSchoolsUnits, getSchoolUnitById } from "../services/schoolUnitService";
 import { createProductTransfer, createStockItem, deleteStockItem, updateStockItem } from "../services/stockItemService";
 import axios from "axios";
@@ -342,13 +342,14 @@ export default function EditStock() {
                                 className="flex items-center bg-[#247BA0] hover:opacity-90 text-white font-bold mx-2 py-2 px-4 w-42 rounded disabled:cursor-not-allowed"
                                 onClick={() => handleUpdateStockItemQuantity(item.id)}
                                 >
-                                <ChevronUpDownIcon className="mr-2 h-6 w-6" />
+                                <ChevronUpDownIcon className="mr-2 h-5 w-5" />
                                 Atualizar Quantidade
                               </button> 
                               <button
                                   type="button"
-                                  className="bg-[#F87171] hover:opacity-90 text-white font-bold py-2 px-4 mx-3 w-24 rounded" 
+                                  className="flex items-center bg-[#F87171] hover:opacity-90 text-white font-bold mx-2 py-2 px-4 w-42 rounded disabled:cursor-not-allowed" 
                                   onClick={() => handleDeleteStockItem(item.id)}>
+                                  <TrashIcon className="mr-2 h-5 w-5" />
                                   Excluir
                                 </button>                      
                             </td>                    

@@ -52,11 +52,11 @@ export default function EditProduct() {
                     <div className="flex justify-end">
                       <Link to={'/gerenciamento/unidades-escolares'}>
                         <button type="button" className="bg-[#1C2434] hover:opacity-90 mt-5 text-[#F5EDF0] font-bold py-2 px-4 mx-3 rounded">
-                            Voltar
+                          Voltar
                         </button>
                       </Link>
                       <button type="submit" className="bg-[#247BA0] hover:opacity-90 mt-5 text-[#F5EDF0] font-bold py-2 px-4 mx-3 rounded">
-                          Criar
+                        Adicionar
                       </button>
                     </div>
                 </form>

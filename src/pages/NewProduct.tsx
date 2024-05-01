@@ -88,12 +88,11 @@ export default function NewProduct() {
                       <button
                         type="button"
                         className="flex items-center bg-[#1C2434] hover:opacity-90 text-white font-bold mt-5 py-2 px-4 mx-3 rounded">
-                        <ArrowUturnLeftIcon className="h-6 w-6 mr-3" />
-                        Voltar
+                        Cancelar
                       </button>
                       </Link>
                       <button type="submit" className="bg-[#247BA0] hover:opacity-90 mt-5 text-[#F5EDF0] font-bold py-2 px-4 mx-3 rounded">
-                          Adicionar
+                        Adicionar
                       </button>
                     </div>
                 </form>
