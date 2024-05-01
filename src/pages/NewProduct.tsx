@@ -5,7 +5,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { UnitTypeEnum } from "../interfaces/enums/UnitTypeEnum";
 import { createProduct } from "../services/productService";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowUturnLeftIcon } from "@heroicons/react/24/solid";
 
 export type ProductFormInputs = {
   name: string,
