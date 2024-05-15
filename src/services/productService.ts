@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { Product } from "../interfaces/models/Product";
 import { ProductFormInputs } from "../pages/NewProduct";
+import { ProductListResponse } from "../interfaces/models/ProductListResponse";
 
 const BASE_URL = 'https://controleestoque.pythonanywhere.com/produtos/'
 
@@ -13,10 +14,10 @@ export const getProductById = async (id: number): Promise<Product | undefined> =
   }
 }
 
-export const getAllProducts = async (): Promise<Product[] | undefined> => {
+export const getAllProducts = async (page: number): Promise<ProductListResponse | undefined> => {
   try {
-    const response = await axios.get<Product[]>(BASE_URL);
-    if (response.status === axios.HttpStatusCode.Ok) return response.data
+    const response = await axios.get<ProductListResponse>(`${BASE_URL}?page=${page}`);
+    if (response.status === axios.HttpStatusCode.Ok) return response.data;
   } catch (error) {
     error;
   }

@@ -1,25 +1,40 @@
 import { useEffect, useState } from "react";
 import Sidebar from "../components/sidebar/Sidebar";
 import { useAuth } from "../context/useAuth";
-import { Product } from "../interfaces/models/Product";
 import { deleteProduct, getAllProducts } from "../services/productService";
 import { UnitTypeEnum } from "../interfaces/enums/UnitTypeEnum";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { PlusIcon, PencilSquareIcon, TrashIcon } from "@heroicons/react/24/solid";
+import { ProductListResponse } from "../interfaces/models/ProductListResponse";
 
 export default function Products() {
+  const PAGE_SIZE = 10;
+
   const { user } = useAuth();
-  const [products, setProducts] = useState<Product[] | null>(null);
+  const [page, setPage] = useState(1);
+  const [numberOfPages, setNumberOfPages] = useState(1);
+  const [products, setProducts] = useState<ProductListResponse | null>(null);
 
   const fetchProductsList = async () => {
-    const productsList = await getAllProducts();
-    if (productsList) setProducts(productsList);
+    const productsList = await getAllProducts(page);
+    if (productsList) {
+      setProducts(productsList);
+      setNumberOfPages(Math.ceil(productsList.count / PAGE_SIZE));
+    }
   };
+
+  const handleUpdatePageNumber =  (page: number) => {
+    if (page <= 0) page = 1;
+    else if (page > numberOfPages) page = numberOfPages;
+    console.log(page)
+    setPage(page);
+    fetchProductsList();
+  }
 
   useEffect(() => {
     fetchProductsList();
-  }, []);
+  }, [page]);
 
   const handleDeleteProduct = async (id: number) => {
     const confirmed = window.confirm('Tem certeza que deseja excluir esse produto?');
@@ -66,7 +81,7 @@ export default function Products() {
                     </tr>
                   </thead>
                   <tbody>                
-                    {products.map((product) => (
+                    {products.results.map((product) => (
                       <tr className="flex-shrink align-center" key={product.id}>
                         <td className="px-6 py-4 font-medium">{product.id}</td>
                         <td className="px-6 py-4">{product.name}</td>
@@ -102,6 +117,25 @@ export default function Products() {
                     ))}
                   </tbody>
                 </table>
+                <div className="flex justify-center mt-3">
+                  <nav aria-label="Navegação páginas de produtos">
+                    <ul className="inline-flex space-x-2">
+                      <li><button className="flex items-center justify-center w-10 h-10 text-[#247BA0] transition-colors duration-250 rounded-full focus:shadow-outline hover:bg-[#247BA0be] hover:text-white" onClick={() => handleUpdatePageNumber(page - 1)}>
+                        <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path></svg></button>
+                      </li>
+                      {Array.apply(0, Array(numberOfPages + 1)).map(function (_x, i) {
+                        if (i === page)
+                          return <li><button className="w-10 h-10 text-white transition-colors duration-150 bg-[#247BA0] border border-r-0 border-[#247BA0] rounded-full focus:shadow-outline">{i}</button></li>;
+                        else if (i !== page && i != 0)
+                          return <li><button className="w-10 h-10 text-[#247BA0] transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-[#247ba0be] hover:text-white" onClick={() => handleUpdatePageNumber(i)}>{i}</button></li>
+                      })}
+
+                      <li><button className="flex items-center justify-center w-10 h-10 text-[#247BA0] transition-colors duration-250 bg-white rounded-full focus:shadow-outline hover:bg-[#247ba0be] hover:text-white" onClick={() => handleUpdatePageNumber(page + 1)}>
+                        <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path></svg></button>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
               </div>
             </div>
           </div>

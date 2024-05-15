@@ -12,8 +12,8 @@ import axios from "axios";
 import * as Yup from "yup"
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Product } from "../interfaces/models/Product";
 import { getAllProducts } from "../services/productService";
+import { ProductListResponse } from "../interfaces/models/ProductListResponse";
 
 export type StockItemFormInputs = {
   quantity: number,
@@ -50,7 +50,7 @@ export default function EditStock() {
   const [addStockItem, setAddStockItem] = useState<boolean>(false);
   const [transferProduct, setTransferProduct] = useState<boolean>(false);
 
-  const [productsList, setProductsList] = useState<Product[] | null>(null);
+  const [productsList, setProductsList] = useState<ProductListResponse | null>(null);
   const [schoolsUnitsList, setSchoolsUnitsList] = useState<SchoolUnit[] | null>(null);
 
   const { register, handleSubmit, formState: { errors } } = useForm<StockItemFormInputs>({ resolver: yupResolver(stockItemValidation) });
@@ -66,7 +66,7 @@ export default function EditStock() {
   const handleSetAddStockItem = async () => {
     setTransferProduct(false);
     setAddStockItem(true);
-    const products = await getAllProducts();
+    const products = await getAllProducts(1);
     if (products) setProductsList(products);
   }
 
@@ -194,7 +194,7 @@ export default function EditStock() {
                                     {...register("product")}
                                     >
                                       <option value={0}>Selecione um produto</option>
-                                      {productsList?.map((product) => (
+                                      {productsList?.results.map((product) => (
                                         <option 
                                           key={product.id} 
                                           value={product.id}
