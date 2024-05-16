@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../components/sidebar/Sidebar";
 import { useAuth } from "../context/useAuth";
 import { deleteProduct, getAllProducts } from "../services/productService";
@@ -11,21 +11,26 @@ import { ProductListResponse } from "../interfaces/models/ProductListResponse";
 
 export default function Products() {
   const PAGE_SIZE = 10;
+  const ORDER_BY_NAME_ASC = 'name';
+  //const ORDER_BY_NAME_DESC = '-name';
+  const ORDER_BY_CREATED_ASC = 'created_at';
+  const ORDER_BY_CREATED_DESC = '-created_at';
 
   const { user } = useAuth();
   const [page, setPage] = useState(1);
+  const [ordering, setOrdering] = useState(ORDER_BY_CREATED_ASC);
   const [numberOfPages, setNumberOfPages] = useState(1);
   const [products, setProducts] = useState<ProductListResponse | null>(null);
 
   const fetchProductsList = async () => {
-    const productsList = await getAllProducts(page);
+    const productsList = await getAllProducts(page, ordering);
     if (productsList) {
       setProducts(productsList);
       setNumberOfPages(Math.ceil(productsList.count / PAGE_SIZE));
     }
   };
 
-  const handleUpdatePageNumber =  (page: number) => {
+  const handleUpdatePageNumber = (page: number) => {
     if (page <= 0) page = 1;
     else if (page > numberOfPages) page = numberOfPages;
     console.log(page)
@@ -33,9 +38,15 @@ export default function Products() {
     fetchProductsList();
   }
 
+  const handleOrderingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, checked } = e.target;
+    if (checked) setOrdering(value);
+    else setOrdering(ORDER_BY_CREATED_ASC);
+  }
+
   useEffect(() => {
     fetchProductsList();
-  }, [page]);
+  }, [page, ordering]);
 
   const handleDeleteProduct = async (id: number) => {
     const confirmed = window.confirm('Tem certeza que deseja excluir esse produto?');
@@ -59,14 +70,46 @@ export default function Products() {
             <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
               <div className="overflow-hidden mt-2">
                 {user && (user.permissionGroups.length === 0 || user.isStaff) ? (
-                  <Link to={'/produtos/novo'}>
-                    <button
-                      type="button"
-                      className="flex items-center justify-center bg-[#247BA0] hover:opacity-90 text-white font-bold mx-3 w-24 rounded py-2">
-                      <PlusIcon className="h-6 w-6 mr-3" />
-                      Novo
-                    </button>
-                  </Link>
+                  <div className="flex items-center justify-between">
+                    <Link to={'/produtos/novo'}>
+                      <button
+                        type="button"
+                        className="flex items-center justify-center bg-[#247BA0] hover:opacity-90 text-white font-bold mx-3 w-24 rounded py-2">
+                        <PlusIcon className="h-6 w-6 mr-3" />
+                        Novo
+                      </button>
+                    </Link>
+                    <div className="flex mr-5">
+                      <div className="flex mx-5">
+                        <p>Ordenar por:</p>
+                        <div className="flex mx-2">
+                          <label>Nome</label>
+                          <label className="mx-2 relative inline-flex cursor-pointer items-center">
+                            <input id="ordernarPorNome" type="checkbox" className="peer sr-only"
+                              value={ORDER_BY_NAME_ASC} 
+                              checked={ordering===ORDER_BY_NAME_ASC} 
+                              onChange={handleOrderingChange} />
+                            <label htmlFor="ordernarPorNome" className="hidden"></label>
+                            <div className="peer h-6 w-11 rounded-full border bg-[#1c243444] after:absolute after:left-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:border-[#247BA0] after:bg-[#247ba0] after:transition-all after:content-[''] peer-checked:bg-[#247ba028] peer-checked:after:translate-x-full"></div>
+                          </label>
+                        </div>
+                      </div>
+                      <div className="flex mx-5">
+                        <p>Ordenar por:</p>
+                        <div className="flex mx-2">
+                          <label>Últimos cadastrados</label>
+                          <label className="mx-2 relative inline-flex cursor-pointer items-center">
+                            <input id="ordernarPorDataDeCadastro" type="checkbox" className="peer sr-only" 
+                              value={ORDER_BY_CREATED_DESC}
+                              checked={ordering===ORDER_BY_CREATED_DESC}
+                              onChange={handleOrderingChange} />
+                            <label htmlFor="ordernarPorDataDeCadastro" className="hidden"></label>
+                            <div className="peer h-6 w-11 rounded-full border bg-[#1c243444] after:absolute after:left-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:border-[#247BA0] after:bg-[#247ba0] after:transition-all after:content-[''] peer-checked:bg-[#247ba028] peer-checked:after:translate-x-full"></div>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 ) : ''                  
                 }
                 <table

@@ -14,9 +14,9 @@ export const getProductById = async (id: number): Promise<Product | undefined> =
   }
 }
 
-export const getAllProducts = async (page: number): Promise<ProductListResponse | undefined> => {
+export const getAllProducts = async (page: number, ordering: string): Promise<ProductListResponse | undefined> => {
   try {
-    const response = await axios.get<ProductListResponse>(`${BASE_URL}?page=${page}`);
+    const response = await axios.get<ProductListResponse>(`${BASE_URL}?ordering=${ordering}&page=${page}`);
     if (response.status === axios.HttpStatusCode.Ok) return response.data;
   } catch (error) {
     error;

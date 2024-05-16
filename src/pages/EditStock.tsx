@@ -66,7 +66,7 @@ export default function EditStock() {
   const handleSetAddStockItem = async () => {
     setTransferProduct(false);
     setAddStockItem(true);
-    const products = await getAllProducts(1);
+    const products = await getAllProducts(1, '');
     if (products) setProductsList(products);
   }
 
