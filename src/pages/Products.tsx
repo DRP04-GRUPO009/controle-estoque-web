@@ -33,7 +33,6 @@ export default function Products() {
   const handleUpdatePageNumber = (page: number) => {
     if (page <= 0) page = 1;
     else if (page > numberOfPages) page = numberOfPages;
-    console.log(page)
     setPage(page);
     fetchProductsList();
   }

@@ -1,6 +1,7 @@
 import axios, { AxiosResponse, HttpStatusCode } from "axios";
 import { SchoolUnit } from "../interfaces/models/SchoolUnit";
 import { SchoolUnitFormInputs } from "../pages/EditSchoolUnit";
+import { SchoolUnitListResponse } from "../interfaces/models/ShoolUnitListResponse";
 
 const BASE_URL = 'https://controleestoque.pythonanywhere.com/unidades-escolares/'
 
@@ -13,9 +14,9 @@ export const getSchoolUnitById = async (id: number): Promise<SchoolUnit | undefi
   }
 }
 
-export const getAllSchoolsUnits = async (): Promise<SchoolUnit[] | undefined> => {
+export const getAllSchoolsUnits = async (page: number): Promise<SchoolUnitListResponse | undefined> => {
   try {
-    const response = await axios.get<SchoolUnit[]>(`${BASE_URL}`);
+    const response = await axios.get<SchoolUnitListResponse>(`${BASE_URL}?page=${page}`);
     if (response.status === axios.HttpStatusCode.Ok) return response.data;
   } catch (error) {
     error;
