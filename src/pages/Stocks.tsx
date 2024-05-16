@@ -1,23 +1,38 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import Sidebar from "../components/sidebar/Sidebar";
 import { useAuth } from "../context/useAuth";
-import { SchoolUnit } from "../interfaces/models/SchoolUnit";
 import { getAllSchoolsUnits } from "../services/schoolUnitService";
 import { Link } from "react-router-dom";
 import { ArrowUturnLeftIcon } from "@heroicons/react/24/solid";
+import { SchoolUnitListResponse } from "../interfaces/models/ShoolUnitListResponse";
 
 export default function Stocks() {
+  const PAGE_SIZE = 10;
+
   const { user } = useAuth();
-  const [schoolsUnits, setSchoolsUnits] = useState<SchoolUnit[] | null>(null);
+  const [schoolsUnits, setSchoolsUnits] = useState<SchoolUnitListResponse | null>(null);
+  const [page, setPage] = useState(1);
+  const [numberOfPages, setNumberOfPages] = useState(1);
 
   const fetchScholsUnits = async () => {
-    const schoolsUnits = await getAllSchoolsUnits();
-    if (schoolsUnits) setSchoolsUnits(schoolsUnits);
+    const schoolsUnits = await getAllSchoolsUnits(page);
+    if (schoolsUnits) {
+      setSchoolsUnits(schoolsUnits);
+      setNumberOfPages(Math.ceil(schoolsUnits.count / PAGE_SIZE));
+    }
+  }
+
+  const handleUpdatePageNumber = (page: number) => {
+    if (page <= 0) page = 1;
+    else if (page > numberOfPages) page = numberOfPages;
+    setPage(page);
+    fetchScholsUnits();
   }
 
   useEffect(() => {
     fetchScholsUnits();
-  }, []);
+  }, [page]);
 
 
   return (
@@ -42,11 +57,11 @@ export default function Stocks() {
                     </tr>
                   </thead>
                   <tbody>                
-                    {schoolsUnits.map((schoolUnit) => (
+                    {schoolsUnits.results.map((schoolUnit) => (
                       <tr className="" key={schoolUnit.stock.school_unit}>
-                        <td className="px-6 py-4">{schoolUnit.name}</td>
-                        <td className="px-6 py-4">{schoolUnit.stock.items.length}</td>
-                        <td className="flex px-3 py-4">
+                        <td className="px-6 py-3">{schoolUnit.name}</td>
+                        <td className="px-6 py-3">{schoolUnit.stock.items.length}</td>
+                        <td className="flex px-3 py-3">
                           <Link to={`/gerenciamento/unidades-escolares/${schoolUnit.stock.school_unit}/estoque`}>
                             <button
                               type="button"
@@ -59,6 +74,25 @@ export default function Stocks() {
                     ))}
                   </tbody>
                 </table>
+                <div className="flex justify-center mt-3">
+                  <nav aria-label="Navegação páginas de produtos">
+                    <ul className="inline-flex space-x-2">
+                      <li><button className="flex items-center justify-center w-10 h-10 text-[#247BA0] transition-colors duration-250 rounded-full focus:shadow-outline hover:bg-[#247BA0be] hover:text-white" onClick={() => handleUpdatePageNumber(page - 1)}>
+                        <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path></svg></button>
+                      </li>
+                      {Array.apply(0, Array(numberOfPages + 1)).map(function (_x, i) {
+                        if (i === page)
+                          return <li><button className="w-10 h-10 text-white transition-colors duration-150 bg-[#247BA0] border border-r-0 border-[#247BA0] rounded-full focus:shadow-outline">{i}</button></li>;
+                        else if (i !== page && i != 0)
+                          return <li><button className="w-10 h-10 text-[#247BA0] transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-[#247ba0be] hover:text-white" onClick={() => handleUpdatePageNumber(i)}>{i}</button></li>
+                      })}
+
+                      <li><button className="flex items-center justify-center w-10 h-10 text-[#247BA0] transition-colors duration-250 bg-white rounded-full focus:shadow-outline hover:bg-[#247ba0be] hover:text-white" onClick={() => handleUpdatePageNumber(page + 1)}>
+                        <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path></svg></button>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
               </div>
             </div>
           </div>
