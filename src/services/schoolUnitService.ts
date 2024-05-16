@@ -2,6 +2,7 @@ import axios, { AxiosResponse, HttpStatusCode } from "axios";
 import { SchoolUnit } from "../interfaces/models/SchoolUnit";
 import { SchoolUnitFormInputs } from "../pages/EditSchoolUnit";
 import { SchoolUnitListResponse } from "../interfaces/models/ShoolUnitListResponse";
+import { StockItem } from "../interfaces/models/StockItem";
 
 const BASE_URL = 'https://controleestoque.pythonanywhere.com/unidades-escolares/'
 
@@ -14,9 +15,18 @@ export const getSchoolUnitById = async (id: number): Promise<SchoolUnit | undefi
   }
 }
 
-export const getAllSchoolsUnits = async (page: number): Promise<SchoolUnitListResponse | undefined> => {
+export const getAllSchoolsUnitsByPage = async (page: number): Promise<SchoolUnitListResponse | undefined> => {
   try {
     const response = await axios.get<SchoolUnitListResponse>(`${BASE_URL}?page=${page}`);
+    if (response.status === axios.HttpStatusCode.Ok) return response.data;
+  } catch (error) {
+    error;
+  }
+}
+
+export const getAllSchoolsUnits = async (): Promise<SchoolUnit[] | undefined> => {
+  try {
+    const response = await axios.get<SchoolUnit[]>(`${BASE_URL}`);
     if (response.status === axios.HttpStatusCode.Ok) return response.data;
   } catch (error) {
     error;
@@ -52,3 +62,10 @@ export const deleteSchoolUnit = async (id: number): Promise<AxiosResponse | unde
   }
 }
 
+export const paginateStockItems = (items: StockItem[], pageSize: number): StockItem[][] => {
+  const pages: StockItem[][] = [];
+  for (let i = 0; i < items.length; i += pageSize) {
+    pages.push(items.slice(i, i + pageSize))
+  }
+  return pages;
+}

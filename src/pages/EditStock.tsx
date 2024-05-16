@@ -6,14 +6,15 @@ import { SchoolUnit } from "../interfaces/models/SchoolUnit";
 import { useEffect, useState } from "react";
 import { UnitTypeEnum } from "../interfaces/enums/UnitTypeEnum";
 import { ChevronUpDownIcon, ArrowUpTrayIcon, ArrowUturnLeftIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/solid";
-import { getAllSchoolsUnits, getSchoolUnitById } from "../services/schoolUnitService";
+import { getAllSchoolsUnits, getSchoolUnitById, paginateStockItems } from "../services/schoolUnitService";
 import { createProductTransfer, createStockItem, deleteStockItem, updateStockItem } from "../services/stockItemService";
 import axios from "axios";
 import * as Yup from "yup"
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { getAllProducts } from "../services/productService";
-import { ProductListResponse } from "../interfaces/models/ProductListResponse";
+import { Product } from "../interfaces/models/Product";
+import { StockItem } from "../interfaces/models/StockItem";
 
 export type StockItemFormInputs = {
   quantity: number,
@@ -42,6 +43,9 @@ const transferProductValidation = Yup.object().shape({
 });
 
 export default function EditStock() {
+  const PAGE_SIZE = 10;
+  const ORDER_BY_NAME_ASC = 'name';
+
   const { id } = useParams();
   const { user } = useAuth();
 
@@ -50,11 +54,20 @@ export default function EditStock() {
   const [addStockItem, setAddStockItem] = useState<boolean>(false);
   const [transferProduct, setTransferProduct] = useState<boolean>(false);
 
-  const [productsList, setProductsList] = useState<ProductListResponse | null>(null);
+  const [stockItemsByPage, setStockItemsByPage] = useState<StockItem[][]>([]);
+  const [page, setPage] = useState(1);
+  const [numberOfPages, setNumberOfPages] = useState(1);
+  const [productsList, setProductsList] = useState<Product[] | null>(null);
   const [schoolsUnitsList, setSchoolsUnitsList] = useState<SchoolUnit[] | null>(null);
 
   const { register, handleSubmit, formState: { errors } } = useForm<StockItemFormInputs>({ resolver: yupResolver(stockItemValidation) });
   const { register: register2, handleSubmit: handleSubmit2, formState: { errors: errors2 } } = useForm<TransferProductFormInputs>({ resolver: yupResolver(transferProductValidation) });
+
+  const handleUpdatePageNumber = (page: number) => {
+    if (page <= 0) page = 1;
+    else if (page > numberOfPages) page = numberOfPages;
+    setPage(page);
+  }
 
   const handleEditQuantity = (id: number, value: string) => {
     setEditedQuantity({
@@ -66,16 +79,19 @@ export default function EditStock() {
   const handleSetAddStockItem = async () => {
     setTransferProduct(false);
     setAddStockItem(true);
-    const products = await getAllProducts(1, '');
+    const products = await getAllProducts(ORDER_BY_NAME_ASC);
     if (products) setProductsList(products);
-  }
+  };
 
   const handleSetTransferProduct = async () => {
     setAddStockItem(false);
     setTransferProduct(true);
     const schoolsUnits = await getAllSchoolsUnits();
-    if (schoolsUnits) setSchoolsUnitsList(schoolsUnits);
-  }
+    if (schoolsUnits) {
+      schoolsUnits.sort((a, b) => a.name.localeCompare(b.name));
+      setSchoolsUnitsList(schoolsUnits);
+    }
+  };
 
   const handleAddStockItem = async (form: StockItemFormInputs) => {
     if (schoolUnit?.stock.items.some(i => i.product.id === form.product)) {
@@ -92,7 +108,7 @@ export default function EditStock() {
       }
       else window.alert(`Ocorreu um erro ao tentar adicionar o item. Código: ${response}`);
     }
-  }
+  };
 
   const handleTransferProduct = async (form: TransferProductFormInputs) => {
     const originStockItem = schoolUnit?.stock.items.find(s => s.product.id === form.product)
@@ -110,7 +126,7 @@ export default function EditStock() {
         else window.alert(`Ocorreu um erro ao tentar efetuar a transferência. Código: ${response}`);
       }
     }
-  }
+  };
 
   const handleUpdateStockItemQuantity = async (id: number) => {
     const quantity = editedQuantity[id];
@@ -142,7 +158,7 @@ export default function EditStock() {
       else window.alert(`Não foi possível excluir o item. Código: ${response}`);
       fetchSchoolUnitById();
     }
-  }
+  };
 
   useEffect(() => {
     fetchSchoolUnitById();
@@ -150,8 +166,14 @@ export default function EditStock() {
 
   const fetchSchoolUnitById = async () => {
     const schoolUnit = await getSchoolUnitById(id ? Number.parseInt(id) : 0);
-    if (schoolUnit) setSchoolUnit(schoolUnit);
+    if (schoolUnit) {
+      schoolUnit.stock.items.sort((a, b) => a.product.name.localeCompare(b.product.name));
+      setSchoolUnit(schoolUnit);
+      setStockItemsByPage(paginateStockItems(schoolUnit.stock.items, PAGE_SIZE));
+      setNumberOfPages(Math.ceil(schoolUnit.stock.items.length / PAGE_SIZE));
+    }
   };
+
   return (
     <>
      <div className="flex flex-row">
@@ -194,7 +216,7 @@ export default function EditStock() {
                                     {...register("product")}
                                     >
                                       <option value={0}>Selecione um produto</option>
-                                      {productsList?.results.map((product) => (
+                                      {productsList?.map((product) => (
                                         <option 
                                           key={product.id} 
                                           value={product.id}
@@ -321,11 +343,11 @@ export default function EditStock() {
                       </tr>
                     </thead>
                     <tbody>                
-                      {schoolUnit.stock.items.map((item) => (
+                      {stockItemsByPage[page - 1].map((item) => (
                         <tr className="" key={item.id}>
-                          <td className="px-6 py-4">{item.id}</td>
-                          <td className="px-6 py-4">{item.product.name}</td>
-                          <td className="px-6 py-4">{UnitTypeEnum[item.product.unit_type.valueOf()]}</td>
+                          <td className="px-6 py-2">{item.id}</td>
+                          <td className="px-6 py-2">{item.product.name}</td>
+                          <td className="px-6 py-2">{UnitTypeEnum[item.product.unit_type.valueOf()]}</td>
                             <td>
                               <input 
                               type="number"
@@ -336,7 +358,7 @@ export default function EditStock() {
                               onChange={(e) => handleEditQuantity(item.id, e.target.value)}
                               />
                             </td>                     
-                            <td className="flex px-6 py-4">
+                            <td className="flex px-6 py-2">
                               <button
                                 type="button"
                                 className="flex items-center bg-[#247BA0] hover:opacity-90 text-white font-bold mx-2 py-2 px-4 w-42 rounded disabled:cursor-not-allowed"
@@ -357,6 +379,25 @@ export default function EditStock() {
                       ))}
                     </tbody>
                 </table>
+                <div className="flex justify-center mt-3">
+                  <nav aria-label="Navegação páginas de produtos">
+                    <ul className="inline-flex space-x-2">
+                      <li><button className="flex items-center justify-center w-10 h-10 text-[#247BA0] transition-colors duration-250 rounded-full focus:shadow-outline hover:bg-[#247BA0be] hover:text-white" onClick={() => handleUpdatePageNumber(page - 1)}>
+                        <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path></svg></button>
+                      </li>
+                      {Array.apply(0, Array(numberOfPages + 1)).map(function (_x, i) {
+                        if (i === page)
+                          return <li><button className="w-10 h-10 text-white transition-colors duration-150 bg-[#247BA0] border border-r-0 border-[#247BA0] rounded-full focus:shadow-outline">{i}</button></li>;
+                        else if (i !== page && i != 0)
+                          return <li><button className="w-10 h-10 text-[#247BA0] transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-[#247ba0be] hover:text-white" onClick={() => handleUpdatePageNumber(i)}>{i}</button></li>
+                      })}
+
+                      <li><button className="flex items-center justify-center w-10 h-10 text-[#247BA0] transition-colors duration-250 bg-white rounded-full focus:shadow-outline hover:bg-[#247ba0be] hover:text-white" onClick={() => handleUpdatePageNumber(page + 1)}>
+                        <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path></svg></button>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
               </div>
             )}
 

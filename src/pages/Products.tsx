@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../components/sidebar/Sidebar";
 import { useAuth } from "../context/useAuth";
-import { deleteProduct, getAllProducts } from "../services/productService";
+import { deleteProduct, getAllProductsByPage } from "../services/productService";
 import { UnitTypeEnum } from "../interfaces/enums/UnitTypeEnum";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -23,7 +23,7 @@ export default function Products() {
   const [products, setProducts] = useState<ProductListResponse | null>(null);
 
   const fetchProductsList = async () => {
-    const productsList = await getAllProducts(page, ordering);
+    const productsList = await getAllProductsByPage(page, ordering);
     if (productsList) {
       setProducts(productsList);
       setNumberOfPages(Math.ceil(productsList.count / PAGE_SIZE));

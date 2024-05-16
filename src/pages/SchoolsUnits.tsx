@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Sidebar from "../components/sidebar/Sidebar";
 import { useAuth } from "../context/useAuth";
-import { deleteSchoolUnit, getAllSchoolsUnits } from "../services/schoolUnitService";
+import { deleteSchoolUnit, getAllSchoolsUnitsByPage } from "../services/schoolUnitService";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { ArrowUturnLeftIcon, TrashIcon, PlusIcon, PencilSquareIcon } from "@heroicons/react/24/solid";
@@ -18,7 +18,7 @@ export default function SchoolsUnits() {
   const [numberOfPages, setNumberOfPages] = useState(1);
 
   const fetchScholsUnits = async () => {
-    const schoolsUnits = await getAllSchoolsUnits(page);
+    const schoolsUnits = await getAllSchoolsUnitsByPage(page);
     if (schoolsUnits) { 
       setSchoolsUnits(schoolsUnits);
       setNumberOfPages(Math.ceil(schoolsUnits.count / PAGE_SIZE));

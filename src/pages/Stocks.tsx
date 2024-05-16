@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Sidebar from "../components/sidebar/Sidebar";
 import { useAuth } from "../context/useAuth";
-import { getAllSchoolsUnits } from "../services/schoolUnitService";
+import { getAllSchoolsUnitsByPage } from "../services/schoolUnitService";
 import { Link } from "react-router-dom";
 import { ArrowUturnLeftIcon } from "@heroicons/react/24/solid";
 import { SchoolUnitListResponse } from "../interfaces/models/ShoolUnitListResponse";
@@ -16,7 +16,7 @@ export default function Stocks() {
   const [numberOfPages, setNumberOfPages] = useState(1);
 
   const fetchScholsUnits = async () => {
-    const schoolsUnits = await getAllSchoolsUnits(page);
+    const schoolsUnits = await getAllSchoolsUnitsByPage(page);
     if (schoolsUnits) {
       setSchoolsUnits(schoolsUnits);
       setNumberOfPages(Math.ceil(schoolsUnits.count / PAGE_SIZE));
