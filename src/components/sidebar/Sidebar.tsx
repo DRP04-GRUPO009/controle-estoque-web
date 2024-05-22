@@ -22,7 +22,7 @@ export default function Sidebar() {
   }
 
   return (
-    <div className="h-[100vh] w-2/12 bg-[#1C2434] text-[#F1F5F9]">
+    <div className="min-h-screen min-w-2/12 bg-[#1C2434] text-[#F1F5F9]">
       <div className="mb-2 p-4 text-center">
         <Typography variant="h5" placeholder={undefined}>
           Controle de Estoque
