@@ -40,14 +40,14 @@ export default function Login() {
                     <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit(handleLogin)}>
                     <div>
                         <label
-                        htmlFor="email"
+                        htmlFor="nomeDeUsuario"
                         className="block mb-2 text-sm font-medium"
                         >
                         Nome de usuário
                         </label>
                         <input
                         type="text"
-                        id="username"
+                        id="nomeDeUsuario"
                         className="border sm:text-sm rounded-lg block w-full p-2.5 text-black"
                         placeholder="Nome de usuário"
                         {...register("username")}
@@ -56,14 +56,14 @@ export default function Login() {
                     </div>
                     <div>
                         <label
-                        htmlFor="password"
+                        htmlFor="senha"
                         className="block mb-2 text-sm font-medium"
                         >
                         Senha
                         </label>
                         <input
                         type="password"
-                        id="password"
+                        id="senha"
                         className="border sm:text-sm rounded-lg block w-full p-2.5 text-black"
                         placeholder="**********"
                         {...register("password")}
@@ -73,6 +73,7 @@ export default function Login() {
                     <button
                         type="submit"
                         className="w-full font-medium rounded-lg text-sm px-5 py-2.5 text-center text-white bg-[#3C50E0]"
+                        aria-label="Fazer login"
                     >
                         Entrar
                     </button>

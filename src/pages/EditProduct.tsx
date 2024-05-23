@@ -58,10 +58,10 @@ export default function EditProduct() {
                 <form onSubmit={handleSubmit(handleUpdateProduct)}>
                     <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                         <div className="sm:col-span-2">
-                            <label htmlFor="name" className="block mb-2 text-sm font-medium text-[#1C2434] dark:text-white">Nome do produto</label>
+                            <label htmlFor="nomeDoProduto" className="block mb-2 text-sm font-medium text-[#1C2434] dark:text-white">Nome do produto</label>
                             <input 
                               type="text"
-                              id="name" 
+                              id="nomeDoProduto" 
                               className="bg-gray-50 border border-gray-400 text-[#1C2434] text-sm rounded-lg focus:ring-[#247BA0] focus:border-[#247BA0] block w-full p-2.5" 
                               placeholder="Nome do produto" 
                               {...register("name")}
@@ -70,9 +70,9 @@ export default function EditProduct() {
                               {errors.name ? <p className="text-[#F87171]">{errors.name.message}</p> : ""}
                         </div>
                         <div className="sm:col-span-2">
-                            <label htmlFor="category" className="block mb-2 text-sm font-medium text-[#1C2434] dark:text-white">Unidade de medida</label>
+                            <label htmlFor="unidadeDeMedida" className="block mb-2 text-sm font-medium text-[#1C2434] dark:text-white">Unidade de medida</label>
                             <select 
-                              id="category" 
+                              id="unidadeDeMedida" 
                               className="bg-gray-50 border border-gray-400 text-[#1C2434] text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
                               {...register("unit_type")}
                               defaultValue={product.unit_type}
@@ -90,9 +90,9 @@ export default function EditProduct() {
                             {errors.unit_type ? <p className="text-[#F87171]">{errors.unit_type.message}</p> : ""}
                         </div>
                         <div className="sm:col-span-2">
-                            <label htmlFor="description" className="block mb-2 text-sm font-medium text-[#1C2434] dark:text-white">Descrição</label>
+                            <label htmlFor="descricaoDoProduto" className="block mb-2 text-sm font-medium text-[#1C2434] dark:text-white">Descrição</label>
                             <textarea 
-                              id="description" 
+                              id="descricaoDoProduto" 
                               rows={4} 
                               className="block p-2.5 w-full text-sm text-[#1C2434] bg-gray-50 rounded-lg border border-gray-400 focus:ring-[#247BA0] focus:border-[#247BA0]" 
                               placeholder="Descrição do produto"
@@ -106,11 +106,13 @@ export default function EditProduct() {
                       <Link to={'/produtos'} className="inline-block">
                       <button
                         type="button"
-                        className="flex items-center bg-[#1C2434] hover:opacity-90 text-white font-bold mt-5 py-2 px-4 mx-3 rounded">
+                        className="flex items-center bg-[#1C2434] hover:opacity-90 text-white font-bold mt-5 py-2 px-4 mx-3 rounded"
+                        aria-label="Cancelar a edição e voltar à tela anterior">
                         Cancelar
                       </button>
                       </Link>
-                      <button type="submit" className="bg-[#247BA0] hover:opacity-90 mt-5 text-[#F5EDF0] font-bold py-2 px-4 mx-3 rounded">
+                      <button type="submit" className="bg-[#247BA0] hover:opacity-90 mt-5 text-[#F5EDF0] font-bold py-2 px-4 mx-3 rounded"
+                        aria-label="Atualizar o produto">
                         Atualizar
                       </button>
                     </div>

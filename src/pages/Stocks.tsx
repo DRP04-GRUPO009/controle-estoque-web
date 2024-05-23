@@ -59,10 +59,10 @@ export default function Stocks() {
                   <tbody>                
                     {schoolsUnits.results.map((schoolUnit) => (
                       <tr className="" key={schoolUnit.stock.school_unit}>
-                        <td className="px-6 py-3">{schoolUnit.name}</td>
-                        <td className="px-6 py-3">{schoolUnit.stock.items.length}</td>
+                        <td className="px-6 py-3" aria-label={`Unidade escolar ${schoolUnit.name}`}>{schoolUnit.name}</td>
+                        <td className="px-6 py-3" aria-label={`${schoolUnit.stock.items.length} itens cadastrados no estoque da unidade escolar ${schoolUnit.name}`}>{schoolUnit.stock.items.length}</td>
                         <td className="flex px-3 py-3">
-                          <Link to={`/gerenciamento/unidades-escolares/${schoolUnit.stock.school_unit}/estoque`}>
+                          <Link to={`/gerenciamento/unidades-escolares/${schoolUnit.stock.school_unit}/estoque`} aria-label={`Acessar o estoque da unidade ${schoolUnit.name}`}>
                             <button
                               type="button"
                               className="bg-[#1C2434] hover:opacity-90 text-white font-bold py-2 px-4 mx-3 w-24 rounded">
@@ -77,17 +77,17 @@ export default function Stocks() {
                 <div className="flex justify-center mt-3">
                   <nav aria-label="Navegação páginas de produtos">
                     <ul className="inline-flex space-x-2">
-                      <li><button className="flex items-center justify-center w-10 h-10 text-[#247BA0] transition-colors duration-250 rounded-full focus:shadow-outline hover:bg-[#247BA0be] hover:text-white" onClick={() => handleUpdatePageNumber(page - 1)}>
+                      <li><button className="flex items-center justify-center w-10 h-10 text-[#247BA0] transition-colors duration-250 rounded-full focus:shadow-outline hover:bg-[#247BA0be] hover:text-white" onClick={() => handleUpdatePageNumber(page - 1)} aria-label="Acessar a página anterior" >
                         <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path></svg></button>
                       </li>
                       {Array.apply(0, Array(numberOfPages + 1)).map(function (_x, i) {
                         if (i === page)
                           return <li><button className="w-10 h-10 text-white transition-colors duration-150 bg-[#247BA0] border border-r-0 border-[#247BA0] rounded-full focus:shadow-outline">{i}</button></li>;
                         else if (i !== page && i != 0)
-                          return <li><button className="w-10 h-10 text-[#247BA0] transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-[#247ba0be] hover:text-white" onClick={() => handleUpdatePageNumber(i)}>{i}</button></li>
+                          return <li><button className="w-10 h-10 text-[#247BA0] transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-[#247ba0be] hover:text-white" onClick={() => handleUpdatePageNumber(i)} aria-label={`Acessar a página ${i}`}>{i}</button></li>
                       })}
 
-                      <li><button className="flex items-center justify-center w-10 h-10 text-[#247BA0] transition-colors duration-250 bg-white rounded-full focus:shadow-outline hover:bg-[#247ba0be] hover:text-white" onClick={() => handleUpdatePageNumber(page + 1)}>
+                      <li><button className="flex items-center justify-center w-10 h-10 text-[#247BA0] transition-colors duration-250 bg-white rounded-full focus:shadow-outline hover:bg-[#247ba0be] hover:text-white" onClick={() => handleUpdatePageNumber(page + 1)} aria-label="Acessar a próxima página" >
                         <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path></svg></button>
                       </li>
                     </ul>
@@ -103,8 +103,9 @@ export default function Stocks() {
         <Link to={'/gerenciamento'} className="inline-block">
           <button
             type="button"
-            className="flex items-center bg-[#1C2434] hover:opacity-90 text-white font-bold mt-5 py-2 px-4 mx-3 rounded">
-            <ArrowUturnLeftIcon className="h-6 w-6 mr-3" />
+            className="flex items-center bg-[#1C2434] hover:opacity-90 text-white font-bold mt-5 py-2 px-4 mx-3 rounded"
+            aria-label="Voltar para a página anterior" >
+            <ArrowUturnLeftIcon className="h-6 w-6 mr-3" aria-hidden="true" />
             Voltar
           </button>
         </Link>

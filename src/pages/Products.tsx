@@ -70,11 +70,11 @@ export default function Products() {
               <div className="overflow-hidden mt-2">
                 {user && (user.permissionGroups.length === 0 || user.isStaff) ? (
                   <div className="flex items-center justify-between">
-                    <Link to={'/produtos/novo'}>
+                    <Link to={'/produtos/novo'} aria-label="Acessar tela de cadastro de novo produto">
                       <button
                         type="button"
                         className="flex items-center justify-center bg-[#247BA0] hover:opacity-90 text-white font-bold mx-3 w-24 rounded py-2">
-                        <PlusIcon className="h-6 w-6 mr-3" />
+                        <PlusIcon className="h-6 w-6 mr-3" aria-hidden="true" />
                         Novo
                       </button>
                     </Link>
@@ -134,19 +134,20 @@ export default function Products() {
                           <div className="flex">
                             {user && (user.permissionGroups.length === 0 || user.isStaff) ? (
                               <>
-                                <Link to={`${product.id}`}>
+                                <Link to={`${product.id}`} aria-label={`Acessar o produto ${product.name}`}>
                                   <button
                                     type="button"
                                     className="flex items-center bg-[#1C2434] hover:opacity-90 text-white font-bold mx-2 py-2 px-4 w-42 rounded">
-                                    <PencilSquareIcon className="h-5 w-5 mr-3" />
+                                    <PencilSquareIcon className="h-5 w-5 mr-3" aria-hidden="true" />
                                     Editar
                                   </button>
                                 </Link>
                                 <button
                                   type="button"
                                   className="flex items-center bg-[#F87171] hover:opacity-90 text-white font-bold mx-2 py-2 px-4 w-42 rounded" 
-                                  onClick={() => handleDeleteProduct(product.id)}>
-                                  <TrashIcon className="h-5 w-5 mr-3" />
+                                  onClick={() => handleDeleteProduct(product.id)}
+                                  aria-label={`Exluir o produto ${product.name}`}>
+                                  <TrashIcon className="h-5 w-5 mr-3" aria-hidden="true" />
                                   Excluir
                                 </button>
                               </>
@@ -163,7 +164,7 @@ export default function Products() {
                 <div className="flex justify-center mt-3">
                   <nav aria-label="Navegação páginas de produtos">
                     <ul className="inline-flex space-x-2">
-                      <li><button className="flex items-center justify-center w-10 h-10 text-[#247BA0] transition-colors duration-250 rounded-full focus:shadow-outline hover:bg-[#247BA0be] hover:text-white" onClick={() => handleUpdatePageNumber(page - 1)}>
+                      <li><button className="flex items-center justify-center w-10 h-10 text-[#247BA0] transition-colors duration-250 rounded-full focus:shadow-outline hover:bg-[#247BA0be] hover:text-white" onClick={() => handleUpdatePageNumber(page - 1)} aria-label="Acessar página anterior">
                         <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path></svg></button>
                       </li>
                       {Array.apply(0, Array(numberOfPages + 1)).map(function (_x, i) {
@@ -173,7 +174,7 @@ export default function Products() {
                           return <li><button className="w-10 h-10 text-[#247BA0] transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-[#247ba0be] hover:text-white" onClick={() => handleUpdatePageNumber(i)}>{i}</button></li>
                       })}
 
-                      <li><button className="flex items-center justify-center w-10 h-10 text-[#247BA0] transition-colors duration-250 bg-white rounded-full focus:shadow-outline hover:bg-[#247ba0be] hover:text-white" onClick={() => handleUpdatePageNumber(page + 1)}>
+                      <li><button className="flex items-center justify-center w-10 h-10 text-[#247BA0] transition-colors duration-250 bg-white rounded-full focus:shadow-outline hover:bg-[#247ba0be] hover:text-white" onClick={() => handleUpdatePageNumber(page + 1)} aria-label="Acessar próxima página">
                         <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path></svg></button>
                       </li>
                     </ul>

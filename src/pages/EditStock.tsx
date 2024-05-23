@@ -186,15 +186,17 @@ export default function EditStock() {
                   <button
                     type="button"
                     className="flex items-center bg-[#1C2434] hover:opacity-90 text-white font-bold mx-2 py-2 px-4 w-42 rounded"
-                    onClick={() => handleSetTransferProduct()}>
-                    <ArrowUpTrayIcon className="h-6 w-6 mr-3" />
+                    onClick={() => handleSetTransferProduct()}
+                    aria-label="Acessar formulário de transferência de produtos">
+                    <ArrowUpTrayIcon className="h-6 w-6 mr-3" aria-hidden="true" />
                     Enviar Produtos
                   </button>   
                   <button
                     type="button"
                     className="flex items-center bg-[#1C2434] hover:opacity-90 text-white font-bold mx-2 py-2 px-4 w-42 rounded"
-                    onClick={() => handleSetAddStockItem()}>
-                    <PlusIcon className="h-6 w-6 mr-3" />
+                    onClick={() => handleSetAddStockItem()}
+                    aria-label="Cadastrar novo item no estoque">
+                    <PlusIcon className="h-6 w-6 mr-3" aria-hidden="true" />
                     Adicionar
                   </button>
               </div>
@@ -209,9 +211,9 @@ export default function EditStock() {
                       <form onSubmit={handleSubmit(handleAddStockItem)}>
                           <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                               <div className="sm:col-span-2">
-                                  <label htmlFor="product" className="block mb-2 text-sm font-medium text-[#1C2434] dark:text-white">Produto</label>
+                                  <label htmlFor="produto" className="block mb-2 text-sm font-medium text-[#1C2434] dark:text-white">Produto</label>
                                   <select 
-                                    id="product" 
+                                    id="produto" 
                                     className="bg-gray-50 border border-gray-400 text-[#1C2434] text-sm rounded-lg focus:ring-[#247BA0] focus:border-[#247BA0] block w-full p-2.5"
                                     {...register("product")}
                                     >
@@ -228,10 +230,10 @@ export default function EditStock() {
                                   {errors.product ? <p className="text-[#F87171]">{errors.product.message}</p> : ""}
                               </div>
                               <div className="sm:col-span-2">
-                                  <label htmlFor="quantity" className="block mb-2 text-sm font-medium text-[#1C2434] dark:text-white">Quantidade do produto</label>
+                                  <label htmlFor="quantidadeDoProduto" className="block mb-2 text-sm font-medium text-[#1C2434] dark:text-white">Quantidade do produto</label>
                                   <input 
                                     type="number"
-                                    id="quantity" 
+                                    id="quantidadeDoProduto" 
                                     className="bg-gray-50 border border-gray-400 text-[#1C2434] text-sm rounded-lg focus:ring-[#247BA0] focus:border-[#247BA0] block w-full p-2.5" 
                                     placeholder="Quantidade do produto" 
                                     {...register("quantity")}
@@ -245,10 +247,12 @@ export default function EditStock() {
                             <button
                               type="button"
                               className="flex items-center bg-[#1C2434] hover:opacity-90 text-white font-bold mt-5 py-2 px-4 mx-3 rounded"
-                              onClick={() => setAddStockItem(false)}>
+                              onClick={() => setAddStockItem(false)}
+                              aria-label="Cancelar e retornar à tela anterior">
                               Cancelar
                             </button>
-                            <button type="submit" className="bg-[#247BA0] hover:opacity-90 mt-5 text-[#F5EDF0] font-bold py-2 px-4 mx-3 rounded">
+                            <button type="submit" className="bg-[#247BA0] hover:opacity-90 mt-5 text-[#F5EDF0] font-bold py-2 px-4 mx-3 rounded"
+                            aria-label="Adicionar produto ao estoque">
                                 Adicionar
                             </button>
                           </div>
@@ -267,9 +271,9 @@ export default function EditStock() {
                     <form onSubmit={handleSubmit2(handleTransferProduct)}>
                           <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                               <div className="sm:col-span-2">
-                                <label htmlFor="SchoolUnit" className="block mb-2 text-sm font-medium text-[#1C2434] dark:text-white">Unidade Escolar</label>
+                                <label htmlFor="unidadeEscolar" className="block mb-2 text-sm font-medium text-[#1C2434] dark:text-white">Unidade Escolar</label>
                                 <select 
-                                  id="SchoolUnit"
+                                  id="unidadeEscolar"
                                   className="bg-gray-50 border border-gray-400 text-[#1C2434] text-sm rounded-lg focus:ring-[#247BA0] focus:border-[#247BA0] block w-full p-2.5"
                                   {...register2("target_school_unit")}>
                                   <option value={0}>Selecione uma Unidade</option>
@@ -287,9 +291,9 @@ export default function EditStock() {
                                 {errors2.target_school_unit ? <p className="text-[#F87171]">{errors2.target_school_unit.message}</p> : ""}
                               </div>
                               <div className="sm:col-span-2">
-                                <label htmlFor="Product" className="block mb-2 text-sm font-medium text-[#1C2434] dark:text-white">Produto</label>
+                                <label htmlFor="produto" className="block mb-2 text-sm font-medium text-[#1C2434] dark:text-white">Produto</label>
                                 <select
-                                  id="Product" 
+                                  id="produto" 
                                   className="bg-gray-50 border border-gray-400 text-[#1C2434] text-sm rounded-lg focus:ring-[#247BA0] focus:border-[#247BA0] block w-full p-2.5"
                                   {...register2("product")}>
                                   {schoolUnit?.stock.items.map((item) => (
@@ -299,9 +303,9 @@ export default function EditStock() {
                                 {errors2.product ? <p className="text-[#F87171]">{errors2.product.message}</p> : ""}
                               </div>
                               <div className="sm:col-span-2">
-                                <label htmlFor="Quantity" className="block mb-2 text-sm font-medium text-[#1C2434] dark:text-white">Quantidade</label>
+                                <label htmlFor="quantidade" className="block mb-2 text-sm font-medium text-[#1C2434] dark:text-white">Quantidade</label>
                                 <input 
-                                  id="Quantity"
+                                  id="quantidade"
                                   type="number"
                                   className="bg-gray-50 border border-gray-400 text-[#1C2434] text-sm rounded-lg focus:ring-[#247BA0] focus:border-[#247BA0] block w-full p-2.5" 
                                   {...register2("quantity")}
@@ -313,10 +317,12 @@ export default function EditStock() {
                             <button
                               type="button"
                               className="flex items-center bg-[#1C2434] hover:opacity-90 text-white font-bold mt-5 py-2 px-4 mx-3 rounded"
-                              onClick={() => setTransferProduct(false)}>
+                              onClick={() => setTransferProduct(false)}
+                              aria-label="Cancelar e voltar à tela anterior">
                               Cancelar
                             </button>
-                            <button type="submit" className="bg-[#247BA0] hover:opacity-90 mt-5 text-[#F5EDF0] font-bold py-2 px-4 mx-3 rounded">
+                            <button type="submit" className="bg-[#247BA0] hover:opacity-90 mt-5 text-[#F5EDF0] font-bold py-2 px-4 mx-3 rounded"
+                            aria-label="Realizar a transferência do produto">
                               Transferir
                             </button>
                           </div>
@@ -356,6 +362,7 @@ export default function EditStock() {
                               max={user && user.permissionGroups.length > 0 ? item.quantity : Number.MAX_SAFE_INTEGER}
                               defaultValue={item.quantity}
                               onChange={(e) => handleEditQuantity(item.id, e.target.value)}
+                              aria-label={`Quantidade do produto ${item.product.name}`}
                               />
                             </td>                     
                             <td className="flex px-6 py-2">
@@ -363,6 +370,7 @@ export default function EditStock() {
                                 type="button"
                                 className="flex items-center bg-[#247BA0] hover:opacity-90 text-white font-bold mx-2 py-2 px-4 w-42 rounded disabled:cursor-not-allowed"
                                 onClick={() => handleUpdateStockItemQuantity(item.id)}
+                                aria-label={`Atualizar quantidade do produto ${item.product.name}`}
                                 >
                                 <ChevronUpDownIcon className="mr-2 h-5 w-5" />
                                 Atualizar Quantidade
@@ -370,8 +378,9 @@ export default function EditStock() {
                               <button
                                   type="button"
                                   className="flex items-center bg-[#F87171] hover:opacity-90 text-white font-bold mx-2 py-2 px-4 w-42 rounded disabled:cursor-not-allowed" 
-                                  onClick={() => handleDeleteStockItem(item.id)}>
-                                  <TrashIcon className="mr-2 h-5 w-5" />
+                                  onClick={() => handleDeleteStockItem(item.id)}
+                                  aria-label={`Excluir o produto ${item.product.name}`}>
+                                  <TrashIcon className="mr-2 h-5 w-5" aria-hidden="true" />
                                   Excluir
                                 </button>                      
                             </td>                    
@@ -382,17 +391,17 @@ export default function EditStock() {
                 <div className="flex justify-center mt-3">
                   <nav aria-label="Navegação páginas de produtos">
                     <ul className="inline-flex space-x-2">
-                      <li><button className="flex items-center justify-center w-10 h-10 text-[#247BA0] transition-colors duration-250 rounded-full focus:shadow-outline hover:bg-[#247BA0be] hover:text-white" onClick={() => handleUpdatePageNumber(page - 1)}>
+                      <li><button className="flex items-center justify-center w-10 h-10 text-[#247BA0] transition-colors duration-250 rounded-full focus:shadow-outline hover:bg-[#247BA0be] hover:text-white" onClick={() => handleUpdatePageNumber(page - 1)} aria-label={`Ir para a página anterior`}>
                         <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path></svg></button>
                       </li>
                       {Array.apply(0, Array(numberOfPages + 1)).map(function (_x, i) {
                         if (i === page)
                           return <li><button className="w-10 h-10 text-white transition-colors duration-150 bg-[#247BA0] border border-r-0 border-[#247BA0] rounded-full focus:shadow-outline">{i}</button></li>;
                         else if (i !== page && i != 0)
-                          return <li><button className="w-10 h-10 text-[#247BA0] transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-[#247ba0be] hover:text-white" onClick={() => handleUpdatePageNumber(i)}>{i}</button></li>
+                          return <li><button className="w-10 h-10 text-[#247BA0] transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-[#247ba0be] hover:text-white" onClick={() => handleUpdatePageNumber(i)} aria-label={`Ir para a página ${i}`}>{i}</button></li>
                       })}
 
-                      <li><button className="flex items-center justify-center w-10 h-10 text-[#247BA0] transition-colors duration-250 bg-white rounded-full focus:shadow-outline hover:bg-[#247ba0be] hover:text-white" onClick={() => handleUpdatePageNumber(page + 1)}>
+                      <li><button className="flex items-center justify-center w-10 h-10 text-[#247BA0] transition-colors duration-250 bg-white rounded-full focus:shadow-outline hover:bg-[#247ba0be] hover:text-white" onClick={() => handleUpdatePageNumber(page + 1)} aria-label={`Ir para a próxima página`}>
                         <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path></svg></button>
                       </li>
                     </ul>
@@ -405,8 +414,9 @@ export default function EditStock() {
               <Link to={'/gerenciamento/estoques'} className="inline-block">
                 <button
                   type="button"
-                  className="flex items-center bg-[#1C2434] hover:opacity-90 text-white font-bold mt-5 py-2 px-4 mx-3 w-32 rounded">
-                  <ArrowUturnLeftIcon className="h-6 w-6 mr-3" />
+                  className="flex items-center bg-[#1C2434] hover:opacity-90 text-white font-bold mt-5 py-2 px-4 mx-3 w-32 rounded"
+                  aria-label="Cancelar e voltar para a página anterior">
+                  <ArrowUturnLeftIcon className="h-6 w-6 mr-3" aria-hidden="true" />
                   Voltar
                 </button>
               </Link> 

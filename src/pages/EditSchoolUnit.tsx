@@ -56,10 +56,10 @@ export default function EditProduct() {
                 <form onSubmit={handleSubmit(handleUpdateSchoolUnit)}>
                     <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                         <div className="sm:col-span-2">
-                            <label htmlFor="name" className="block mb-2 text-sm font-medium text-[#1C2434] dark:text-white">Nome da Unidade</label>
+                            <label htmlFor="nomeUnidadeEscolar" className="block mb-2 text-sm font-medium text-[#1C2434] dark:text-white">Nome da Unidade</label>
                             <input 
                               type="text"
-                              id="name" 
+                              id="nomeUnidadeEscolar" 
                               className="bg-gray-50 border border-gray-400 text-[#1C2434] text-sm rounded-lg focus:ring-[#247BA0] focus:border-[#247BA0] block w-full p-2.5" 
                               placeholder="Nome da Unidade" 
                               {...register("name")}
@@ -68,10 +68,10 @@ export default function EditProduct() {
                               {errors.name ? <p className="text-[#F87171]">{errors.name.message}</p> : ""}
                         </div>
                         <div className="sm:col-span-2">
-                            <label htmlFor="isMain" className="mb-2 mr-2 text-sm font-medium text-[#1C2434] dark:text-white">Unidade Principal</label>
+                            <label htmlFor="unidadePrincipal" className="mb-2 mr-2 text-sm font-medium text-[#1C2434] dark:text-white">Unidade Principal</label>
                             <input 
                               type="checkbox"
-                              id="isMain" 
+                              id="unidadePrincipal" 
                               className="bg-gray-50 text-[#1C2434] text-sm rounded-lg focus:ring-[#247BA0] focus:border-[#247BA0]" 
                               placeholder="Nome da Unidade" 
                               {...register("main_unit")}
@@ -81,11 +81,13 @@ export default function EditProduct() {
                     </div>
                     <div className="flex justify-end">
                       <Link to={'/gerenciamento/unidades-escolares'} className="inline-block">
-                        <button type="button" className="bg-[#1C2434] hover:opacity-90 mt-5 text-[#F5EDF0] font-bold py-2 px-4 mx-3 rounded">
+                        <button type="button" className="bg-[#1C2434] hover:opacity-90 mt-5 text-[#F5EDF0] font-bold py-2 px-4 mx-3 rounded"
+                        aria-label="Cancelar e voltar à tela anterior">
                             Voltar
                         </button>
                       </Link>
-                      <button type="submit" className="bg-[#247BA0] hover:opacity-90 mt-5 text-[#F5EDF0] font-bold py-2 px-4 mx-3 rounded">
+                      <button type="submit" className="bg-[#247BA0] hover:opacity-90 mt-5 text-[#F5EDF0] font-bold py-2 px-4 mx-3 rounded"
+                      aria-label="Atualizar unidade escolar">
                           Atualizar
                       </button>
                     </div>

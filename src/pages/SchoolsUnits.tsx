@@ -73,11 +73,11 @@ export default function SchoolsUnits() {
             <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
               <div className="overflow-hidden mt-2">
                 {user && (user.permissionGroups.length === 0 || user.isStaff)  ? (
-                  <Link to={'/gerenciamento/unidades-escolares/nova'}>
+                  <Link to={'/gerenciamento/unidades-escolares/nova'} aria-label="Ir para formulário de criação de unidade escolar" >
                     <button
                       type="button"
                       className="flex items-center justify-center bg-[#247BA0] hover:opacity-90 text-white font-bold mx-3 w-24 rounded py-2">
-                      <PlusIcon className="mr-2 h-6 w-6" />
+                      <PlusIcon className="mr-2 h-6 w-6" aria-hidden="true" />
                       Nova
                     </button>
                   </Link>
@@ -102,17 +102,19 @@ export default function SchoolsUnits() {
                               <Link to={`${schoolUnit.stock.school_unit}/editar`}>
                                 <button
                                   type="button"
-                                  className="flex items-center bg-[#1C2434] hover:opacity-90 text-white font-bold py-2 px-4 mx-3 w-42 rounded">
-                                  <PencilSquareIcon className="mr-2 h-5 w-5" />
+                                  className="flex items-center bg-[#1C2434] hover:opacity-90 text-white font-bold py-2 px-4 mx-3 w-42 rounded"
+                                  aria-label={`Editar informações da unidade ${schoolUnit.name}`}>
+                                  <PencilSquareIcon className="mr-2 h-5 w-5" aria-hidden="true" />
                                   Editar
                                 </button>
                               </Link>
                               <button
                                 type="button"
                                 className="flex items-center bg-[#F87171] hover:opacity-90 text-white font-bold py- px-4 mx-3 w-42 rounded"
-                                onClick={() => handleDeleteSchoolUnit(schoolUnit.stock.school_unit)} 
+                                onClick={() => handleDeleteSchoolUnit(schoolUnit.stock.school_unit)}
+                                aria-label={`Excluir a unidade ${schoolUnit.name}`} 
                                 >
-                                <TrashIcon className="mr-2 h-5 w-5" />
+                                <TrashIcon className="mr-2 h-5 w-5" aria-hidden="true" />
                                 Excluir
                             </button>
                             </>
@@ -128,17 +130,17 @@ export default function SchoolsUnits() {
                 <div className="flex justify-center mt-3">
                   <nav aria-label="Navegação páginas de produtos">
                     <ul className="inline-flex space-x-2">
-                      <li><button className="flex items-center justify-center w-10 h-10 text-[#247BA0] transition-colors duration-250 rounded-full focus:shadow-outline hover:bg-[#247BA0be] hover:text-white" onClick={() => handleUpdatePageNumber(page - 1)}>
+                      <li><button className="flex items-center justify-center w-10 h-10 text-[#247BA0] transition-colors duration-250 rounded-full focus:shadow-outline hover:bg-[#247BA0be] hover:text-white" onClick={() => handleUpdatePageNumber(page - 1)} aria-label="Ir para a página anterior" >
                         <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path></svg></button>
                       </li>
                       {Array.apply(0, Array(numberOfPages + 1)).map(function (_x, i) {
                         if (i === page)
                           return <li><button className="w-10 h-10 text-white transition-colors duration-150 bg-[#247BA0] border border-r-0 border-[#247BA0] rounded-full focus:shadow-outline">{i}</button></li>;
                         else if (i !== page && i != 0)
-                          return <li><button className="w-10 h-10 text-[#247BA0] transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-[#247ba0be] hover:text-white" onClick={() => handleUpdatePageNumber(i)}>{i}</button></li>
+                          return <li><button className="w-10 h-10 text-[#247BA0] transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-[#247ba0be] hover:text-white" onClick={() => handleUpdatePageNumber(i)} aria-label={`Ir para a página ${i}`}>{i}</button></li>
                       })}
 
-                      <li><button className="flex items-center justify-center w-10 h-10 text-[#247BA0] transition-colors duration-250 bg-white rounded-full focus:shadow-outline hover:bg-[#247ba0be] hover:text-white" onClick={() => handleUpdatePageNumber(page + 1)}>
+                      <li><button className="flex items-center justify-center w-10 h-10 text-[#247BA0] transition-colors duration-250 bg-white rounded-full focus:shadow-outline hover:bg-[#247ba0be] hover:text-white" onClick={() => handleUpdatePageNumber(page + 1)} aria-label="Ir para a próxima página">
                         <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path></svg></button>
                       </li>
                     </ul>
@@ -151,11 +153,11 @@ export default function SchoolsUnits() {
         ) : (
           <p>Não há unidades escolares cadastradas.</p>
         )}
-        <Link to={'/gerenciamento'} className="inline-block">
+        <Link to={'/gerenciamento'} className="inline-block" aria-label="Voltar para a tela anterior">
         <button
           type="button"
           className="flex items-center bg-[#1C2434] hover:opacity-90 text-white font-bold mt-5 py-2 px-4 mx-3 rounded">
-          <ArrowUturnLeftIcon className="h-6 w-6 mr-3" />
+          <ArrowUturnLeftIcon className="h-6 w-6 mr-3" aria-hidden="true" />
           Voltar
         </button>
         </Link>

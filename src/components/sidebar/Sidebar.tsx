@@ -30,40 +30,40 @@ export default function Sidebar() {
       </div>
       <List placeholder={undefined} className="text-[#F1F5F9]">
         <Link to={'/'}>
-          <ListItem  placeholder={undefined}>
+          <ListItem placeholder={undefined} aria-label="Página inicial">
             <ListItemPrefix placeholder={undefined}>
-              <HomeIcon className="h-7 w-7" />
+              <HomeIcon className="h-7 w-7" aria-hidden="true" />
             </ListItemPrefix>
             Início
           </ListItem>
         </Link>
         <Link to={'/perfil'}>
-          <ListItem placeholder={undefined}>
+          <ListItem placeholder={undefined} aria-label="Acesso ao seu perfil" >
             <ListItemPrefix placeholder={undefined}>
-              <UserCircleIcon className="h-7 w-7" />
+              <UserCircleIcon className="h-7 w-7" aria-hidden="true" />
             </ListItemPrefix>
             Perfil
           </ListItem>
         </Link>
         <Link to={'/produtos'}>
-          <ListItem placeholder={undefined}>
+          <ListItem placeholder={undefined} aria-label="Acesso à tela de produtos" >
             <ListItemPrefix placeholder={undefined}>
-              <PencilIcon className="h-7 w-7" />
+              <PencilIcon className="h-7 w-7" aria-hidden="true" />
             </ListItemPrefix>
             Produtos cadastrados
           </ListItem>
         </Link>
           <Link to={'/gerenciamento'}>
-            <ListItem placeholder={undefined}>
+            <ListItem placeholder={undefined} aria-label="Área de gerenciamento de unidades escolares e estoques" >
               <ListItemPrefix placeholder={undefined}>
-                <RectangleStackIcon className="h-7 w-7" />
+                <RectangleStackIcon className="h-7 w-7" aria-hidden="true" />
               </ListItemPrefix>
               Gerenciamento de Estoque
             </ListItem>
           </Link>
-        <ListItem placeholder={undefined} className="" onClick={handleExit}>
+        <ListItem placeholder={undefined} className="" onClick={handleExit} aria-label="Desconectar seu usuário da página" >
           <ListItemPrefix placeholder={undefined}>
-            <PowerIcon className="h-7 w-7" />
+            <PowerIcon className="h-7 w-7" aria-hidden="true" />
           </ListItemPrefix>
           Sair
         </ListItem>
